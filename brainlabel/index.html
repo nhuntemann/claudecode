@@ -1,1 +1,1499 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Structures Learning Exercise - with Progress Tracking</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        /* Tab Navigation */
+        .tab-navigation {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: #718096;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-btn:hover {
+            color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Session Stats Bar */
+        .session-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card.secondary {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+
+        .stat-card.tertiary {
+            background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .stat-subtext {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            margin-top: 5px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .mode-toggle {
+            display: flex;
+            background: #edf2f7;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .mode-btn {
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            color: #4a5568;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        .mode-btn.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .progress-text {
+            color: #4a5568;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .score {
+            color: #667eea;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .brain-section {
+            background: #f7fafc;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .brain-section h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        #brainImage {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Structure Mastery Indicators */
+        .structure-mastery {
+            margin-top: 20px;
+        }
+
+        .mastery-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #e2e8f0;
+        }
+
+        .mastery-item.mastered {
+            border-left-color: #48bb78;
+            background: #f0fff4;
+        }
+
+        .mastery-item.learning {
+            border-left-color: #f6ad55;
+            background: #fffaf0;
+        }
+
+        .mastery-icon {
+            font-size: 1.5rem;
+        }
+
+        .mastery-details {
+            flex: 1;
+        }
+
+        .mastery-name {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .mastery-stats {
+            font-size: 0.85rem;
+            color: #718096;
+        }
+
+        .answers-section {
+            background: #f7fafc;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .answers-section h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .answer-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 1.1rem;
+            min-width: 25px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-group input.correct {
+            border-color: #48bb78;
+            background-color: #f0fff4;
+        }
+
+        .input-group input.incorrect {
+            border-color: #fc8181;
+            background-color: #fff5f5;
+        }
+
+        .feedback-icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .word-bank {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px dashed #cbd5e0;
+            margin-bottom: 20px;
+        }
+
+        .word-bank.hidden {
+            display: none;
+        }
+
+        .word-bank h3 {
+            color: #4a5568;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .word-bank-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .word-bank-item {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: #fc8181;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background: #f56565;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-summary {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #667eea;
+            display: none;
+        }
+
+        .results-summary.show {
+            display: block;
+            animation: slideIn 0.5s;
+        }
+
+        .results-summary h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .results-summary p {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        /* Achievements */
+        .achievements {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .achievement-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .achievement-badge.earned {
+            border-color: #f6ad55;
+            background: linear-gradient(135deg, #fef5e7 0%, #fff5e1 100%);
+        }
+
+        .achievement-icon {
+            font-size: 2rem;
+        }
+
+        .achievement-details {
+            flex: 1;
+        }
+
+        .achievement-name {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 0.95rem;
+        }
+
+        .achievement-desc {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        .completion-message {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .completion-message.show {
+            display: block;
+            animation: slideIn 0.5s;
+        }
+
+        .completion-message h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .completion-message p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .brain-functions {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .brain-functions h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .brain-functions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .brain-functions li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .brain-functions li:last-child {
+            border-bottom: none;
+        }
+
+        .brain-functions strong {
+            font-weight: 700;
+        }
+
+        /* Progress Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-card {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .dashboard-card h3 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chart-container {
+            margin-top: 15px;
+        }
+
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .bar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bar-label {
+            min-width: 120px;
+            font-size: 0.9rem;
+            color: #4a5568;
+            font-weight: 600;
+        }
+
+        .bar-wrapper {
+            flex: 1;
+            height: 30px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+        }
+
+        .bar-percentage {
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .recommendations {
+            background: #fffbeb;
+            border-left: 4px solid #f6ad55;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .recommendations h4 {
+            color: #2d3748;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .recommendations ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recommendations li {
+            padding: 8px 0;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .recommendations li:before {
+            content: "→";
+            color: #f6ad55;
+            font-weight: bold;
+        }
+
+        .personal-best {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .personal-best h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .best-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .best-stat {
+            text-align: center;
+        }
+
+        .best-stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .best-stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .progress-ring {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            position: relative;
+        }
+
+        .progress-ring svg {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring-circle {
+            fill: none;
+            stroke: #e2e8f0;
+            stroke-width: 8;
+        }
+
+        .progress-ring-progress {
+            fill: none;
+            stroke: #48bb78;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+
+        .progress-ring-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .mode-toggle {
+                width: 100%;
+            }
+
+            .mode-btn {
+                flex: 1;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .session-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Brain Structures Learning Exercise</h1>
+            <p class="subtitle">Master brain anatomy with intelligent progress tracking</p>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" data-tab="practice">Practice</button>
+            <button class="tab-btn" data-tab="progress">Progress Dashboard</button>
+        </div>
+
+        <!-- Session Stats -->
+        <div class="session-stats">
+            <div class="stat-card">
+                <div class="stat-label">Current Score</div>
+                <div class="stat-value" id="currentScore">0/6</div>
+                <div class="stat-subtext">This attempt</div>
+            </div>
+            <div class="stat-card secondary">
+                <div class="stat-label">Session Attempts</div>
+                <div class="stat-value" id="sessionAttempts">0</div>
+                <div class="stat-subtext">Practice makes perfect</div>
+            </div>
+            <div class="stat-card tertiary">
+                <div class="stat-label">Time Spent</div>
+                <div class="stat-value" id="timeSpent">0m</div>
+                <div class="stat-subtext">Keep learning!</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Current Streak</div>
+                <div class="stat-value" id="currentStreak">0</div>
+                <div class="stat-subtext">Correct in a row</div>
+            </div>
+        </div>
+
+        <!-- Practice Tab -->
+        <div class="tab-content active" data-tab="practice">
+            <div class="controls">
+                <div class="mode-toggle">
+                    <button class="mode-btn active" data-mode="easy">Easy Mode (with word bank)</button>
+                    <button class="mode-btn" data-mode="hard">Hard Mode (recall from memory)</button>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="brain-section">
+                    <h2>Brain Diagram</h2>
+                    <img id="brainImage" src="Brain.png" alt="Brain diagram with numbered regions">
+
+                    <div class="structure-mastery">
+                        <h3 style="color: #2d3748; margin-bottom: 15px; font-size: 1.1rem;">Structure Mastery</h3>
+                        <div id="masteryList"></div>
+                    </div>
+                </div>
+
+                <div class="answers-section">
+                    <h2>Label the Brain Structures</h2>
+
+                    <div class="word-bank" id="wordBank">
+                        <h3>📚 Word Bank (Available Labels):</h3>
+                        <div class="word-bank-items">
+                            <span class="word-bank-item">Frontal Lobe</span>
+                            <span class="word-bank-item">Temporal Lobe</span>
+                            <span class="word-bank-item">Parietal Lobe</span>
+                            <span class="word-bank-item">Occipital Lobe</span>
+                            <span class="word-bank-item">Cerebellum</span>
+                            <span class="word-bank-item">Spinal Cord</span>
+                        </div>
+                    </div>
+
+                    <div class="answer-inputs">
+                        <div class="input-group">
+                            <label>1.</label>
+                            <input type="text" id="answer1" placeholder="Enter brain structure name...">
+                            <span class="feedback-icon" id="feedback1"></span>
+                        </div>
+                        <div class="input-group">
+                            <label>2.</label>
+                            <input type="text" id="answer2" placeholder="Enter brain structure name...">
+                            <span class="feedback-icon" id="feedback2"></span>
+                        </div>
+                        <div class="input-group">
+                            <label>3.</label>
+                            <input type="text" id="answer3" placeholder="Enter brain structure name...">
+                            <span class="feedback-icon" id="feedback3"></span>
+                        </div>
+                        <div class="input-group">
+                            <label>4.</label>
+                            <input type="text" id="answer4" placeholder="Enter brain structure name...">
+                            <span class="feedback-icon" id="feedback4"></span>
+                        </div>
+                        <div class="input-group">
+                            <label>5.</label>
+                            <input type="text" id="answer5" placeholder="Enter brain structure name...">
+                            <span class="feedback-icon" id="feedback5"></span>
+                        </div>
+                        <div class="input-group">
+                            <label>6.</label>
+                            <input type="text" id="answer6" placeholder="Enter brain structure name...">
+                            <span class="feedback-icon" id="feedback6"></span>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="checkBtn">Check Answers</button>
+                        <button class="btn btn-secondary" id="tryAgainBtn" style="display: none;">Try Again</button>
+                        <button class="btn btn-reset" id="resetBtn">Reset</button>
+                    </div>
+
+                    <div class="results-summary" id="resultsSummary"></div>
+
+                    <!-- Achievements -->
+                    <div class="achievements" id="achievementContainer"></div>
+                </div>
+            </div>
+
+            <div class="completion-message" id="completionMessage">
+                <h2>🎉 Perfect Score! Excellent Work!</h2>
+                <p>You've successfully identified all brain structures. Here's how each relates to memory and learning:</p>
+
+                <div class="brain-functions">
+                    <h3>Brain Structures & Memory Functions:</h3>
+                    <ul>
+                        <li><strong>Frontal Lobe:</strong> Executive functions, working memory, decision-making, and memory encoding strategies. Critical for organizing information and planning.</li>
+                        <li><strong>Temporal Lobe:</strong> Processes auditory information and language. Contains the hippocampus, essential for forming new long-term memories.</li>
+                        <li><strong>Spinal Cord:</strong> Transmits signals between brain and body. Involved in reflexive motor memories and basic learned responses.</li>
+                        <li><strong>Parietal Lobe:</strong> Integrates sensory information and spatial processing. Helps create context for memories tied to physical sensations.</li>
+                        <li><strong>Occipital Lobe:</strong> Processes visual information. Visual memories and recognition rely heavily on this region.</li>
+                        <li><strong>Cerebellum:</strong> Coordinates movement and stores procedural memory (motor skills like riding a bike, typing, playing instruments).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Dashboard Tab -->
+        <div class="tab-content" data-tab="progress">
+            <div class="personal-best">
+                <h3>🏆 Personal Best Scores</h3>
+                <div class="best-stats">
+                    <div class="best-stat">
+                        <div class="best-stat-value" id="bestEasyScore">0/6</div>
+                        <div class="best-stat-label">Easy Mode</div>
+                    </div>
+                    <div class="best-stat">
+                        <div class="best-stat-value" id="bestHardScore">0/6</div>
+                        <div class="best-stat-label">Hard Mode</div>
+                    </div>
+                    <div class="best-stat">
+                        <div class="best-stat-value" id="totalAttempts">0</div>
+                        <div class="best-stat-label">Total Attempts</div>
+                    </div>
+                    <div class="best-stat">
+                        <div class="best-stat-value" id="bestStreak">0</div>
+                        <div class="best-stat-label">Best Streak</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>📊 Overall Performance</h3>
+                    <div class="progress-ring">
+                        <svg width="120" height="120">
+                            <circle class="progress-ring-circle" cx="60" cy="60" r="52"></circle>
+                            <circle class="progress-ring-progress" cx="60" cy="60" r="52" id="overallProgressCircle"></circle>
+                        </svg>
+                        <div class="progress-ring-text" id="overallAccuracy">0%</div>
+                    </div>
+                    <p style="text-align: center; color: #4a5568; font-size: 0.95rem;">Overall Accuracy</p>
+                    <div style="text-align: center; margin-top: 10px;">
+                        <div style="color: #667eea; font-weight: 600; font-size: 1.1rem;" id="totalCorrect">0 correct</div>
+                        <div style="color: #718096; font-size: 0.9rem;" id="totalIncorrect">0 incorrect</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>🎯 Mode-Specific Performance</h3>
+                    <div class="chart-container">
+                        <div class="bar-chart">
+                            <div class="bar-item">
+                                <div class="bar-label">Easy Mode</div>
+                                <div class="bar-wrapper">
+                                    <div class="bar-fill" id="easyModeBar" style="width: 0%">
+                                        <span class="bar-percentage" id="easyModePercent">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label">Hard Mode</div>
+                                <div class="bar-wrapper">
+                                    <div class="bar-fill" id="hardModeBar" style="width: 0%">
+                                        <span class="bar-percentage" id="hardModePercent">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>🧩 Structure-Specific Accuracy</h3>
+                    <div class="chart-container">
+                        <div class="bar-chart" id="structureAccuracyChart"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recommendations" id="recommendationsBox">
+                <h4>💡 Personalized Recommendations</h4>
+                <ul id="recommendationsList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data structure for tracking progress
+        const progressData = {
+            session: {
+                attempts: 0,
+                startTime: Date.now(),
+                currentStreak: 0,
+                bestStreak: 0
+            },
+            lifetime: {
+                totalAttempts: 0,
+                easyMode: { attempts: 0, correct: 0 },
+                hardMode: { attempts: 0, correct: 0 },
+                structures: {
+                    1: { name: "Frontal Lobe", correct: 0, incorrect: 0, consecutiveCorrect: 0, lastAttempt: null },
+                    2: { name: "Temporal Lobe", correct: 0, incorrect: 0, consecutiveCorrect: 0, lastAttempt: null },
+                    3: { name: "Spinal Cord", correct: 0, incorrect: 0, consecutiveCorrect: 0, lastAttempt: null },
+                    4: { name: "Parietal Lobe", correct: 0, incorrect: 0, consecutiveCorrect: 0, lastAttempt: null },
+                    5: { name: "Occipital Lobe", correct: 0, incorrect: 0, consecutiveCorrect: 0, lastAttempt: null },
+                    6: { name: "Cerebellum", correct: 0, incorrect: 0, consecutiveCorrect: 0, lastAttempt: null }
+                },
+                bestScores: {
+                    easy: 0,
+                    hard: 0
+                },
+                achievements: []
+            }
+        };
+
+        // Correct answers with acceptable variations
+        const correctAnswers = {
+            1: {
+                name: "Frontal Lobe",
+                variations: ["frontal lobe", "frontal", "front lobe"]
+            },
+            2: {
+                name: "Temporal Lobe",
+                variations: ["temporal lobe", "temporal", "temporallobe"]
+            },
+            3: {
+                name: "Spinal Cord",
+                variations: ["spinal cord", "spinal", "spinalcord", "spine"]
+            },
+            4: {
+                name: "Parietal Lobe",
+                variations: ["parietal lobe", "parietal", "parietallobe"]
+            },
+            5: {
+                name: "Occipital Lobe",
+                variations: ["occipital lobe", "occipital", "occipitallobe", "oxipital lobe"]
+            },
+            6: {
+                name: "Cerebellum",
+                variations: ["cerebellum", "cerebelum", "cerrebellum"]
+            }
+        };
+
+        // Achievement definitions
+        const achievements = [
+            { id: 'perfect_score', name: 'Perfect Score!', desc: 'Got 6/6 correct', icon: '🎯' },
+            { id: 'hard_mode_master', name: 'Hard Mode Master', desc: 'Perfect score in hard mode', icon: '🏆' },
+            { id: 'all_mastered', name: 'All Structures Mastered', desc: 'Mastered all 6 structures', icon: '⭐' },
+            { id: 'streak_5', name: 'Streak Champion', desc: '5 correct answers in a row', icon: '🔥' },
+            { id: 'practice_10', name: 'Dedicated Learner', desc: '10+ practice attempts', icon: '📚' }
+        ];
+
+        let currentMode = 'easy';
+        let checked = false;
+        let timerInterval;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', init);
+
+        function init() {
+            loadProgress();
+            setupTabs();
+            setupModeToggle();
+            setupButtons();
+            setupInputListeners();
+            startTimer();
+            updateAllDisplays();
+        }
+
+        // Load progress from localStorage
+        function loadProgress() {
+            const saved = localStorage.getItem('brainLearningProgress');
+            if (saved) {
+                const loaded = JSON.parse(saved);
+                progressData.lifetime = loaded;
+            }
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            localStorage.setItem('brainLearningProgress', JSON.stringify(progressData.lifetime));
+        }
+
+        // Timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - progressData.session.startTime) / 60000);
+                document.getElementById('timeSpent').textContent = elapsed + 'm';
+            }, 60000);
+        }
+
+        // Tab Navigation
+        function setupTabs() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const tabName = btn.dataset.tab;
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.querySelector(`.tab-content[data-tab="${tabName}"]`).classList.add('active');
+
+                    if (tabName === 'progress') {
+                        updateProgressDashboard();
+                    }
+                });
+            });
+        }
+
+        function setupModeToggle() {
+            const modeButtons = document.querySelectorAll('.mode-btn');
+            modeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    modeButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentMode = btn.dataset.mode;
+                    updateModeDisplay();
+                    resetExercise();
+                });
+            });
+        }
+
+        function updateModeDisplay() {
+            const wordBank = document.getElementById('wordBank');
+            if (currentMode === 'easy') {
+                wordBank.classList.remove('hidden');
+            } else {
+                wordBank.classList.add('hidden');
+            }
+        }
+
+        function setupButtons() {
+            document.getElementById('checkBtn').addEventListener('click', checkAnswers);
+            document.getElementById('tryAgainBtn').addEventListener('click', tryAgain);
+            document.getElementById('resetBtn').addEventListener('click', resetExercise);
+        }
+
+        function setupInputListeners() {
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById(`answer${i}`).addEventListener('input', () => {
+                    if (checked) {
+                        clearFeedback();
+                    }
+                });
+            }
+        }
+
+        function checkAnswers() {
+            checked = true;
+            let correctCount = 0;
+            let streakThisAttempt = 0;
+            const results = [];
+
+            progressData.session.attempts++;
+            progressData.lifetime.totalAttempts++;
+
+            const modeStats = currentMode === 'easy' ? progressData.lifetime.easyMode : progressData.lifetime.hardMode;
+            modeStats.attempts++;
+
+            for (let i = 1; i <= 6; i++) {
+                const input = document.getElementById(`answer${i}`);
+                const feedback = document.getElementById(`feedback${i}`);
+                const userAnswer = input.value.trim().toLowerCase();
+                const correct = correctAnswers[i];
+
+                const isCorrect = correct.variations.some(variation =>
+                    variation === userAnswer
+                );
+
+                const structureData = progressData.lifetime.structures[i];
+                structureData.lastAttempt = Date.now();
+
+                if (isCorrect) {
+                    input.classList.remove('incorrect');
+                    input.classList.add('correct');
+                    feedback.textContent = '✓';
+                    feedback.style.color = '#48bb78';
+                    correctCount++;
+                    streakThisAttempt++;
+
+                    structureData.correct++;
+                    structureData.consecutiveCorrect++;
+                    modeStats.correct++;
+
+                    results.push({ number: i, correct: true, answer: correct.name });
+                } else {
+                    input.classList.remove('correct');
+                    input.classList.add('incorrect');
+                    feedback.textContent = '✗';
+                    feedback.style.color = '#fc8181';
+
+                    structureData.incorrect++;
+                    structureData.consecutiveCorrect = 0;
+
+                    results.push({
+                        number: i,
+                        correct: false,
+                        userAnswer: userAnswer || "(empty)",
+                        correctAnswer: correct.name
+                    });
+                }
+            }
+
+            // Update streaks
+            progressData.session.currentStreak = streakThisAttempt;
+            if (streakThisAttempt > progressData.session.bestStreak) {
+                progressData.session.bestStreak = streakThisAttempt;
+            }
+
+            // Update best scores
+            if (currentMode === 'easy' && correctCount > progressData.lifetime.bestScores.easy) {
+                progressData.lifetime.bestScores.easy = correctCount;
+            }
+            if (currentMode === 'hard' && correctCount > progressData.lifetime.bestScores.hard) {
+                progressData.lifetime.bestScores.hard = correctCount;
+            }
+
+            // Check for achievements
+            checkAchievements(correctCount);
+
+            updateAllDisplays();
+            showResults(correctCount, results);
+            saveProgress();
+
+            if (correctCount === 6) {
+                showCompletion();
+            } else {
+                document.getElementById('tryAgainBtn').style.display = 'block';
+            }
+        }
+
+        function checkAchievements(correctCount) {
+            const earned = progressData.lifetime.achievements;
+
+            if (correctCount === 6 && !earned.includes('perfect_score')) {
+                earned.push('perfect_score');
+            }
+
+            if (correctCount === 6 && currentMode === 'hard' && !earned.includes('hard_mode_master')) {
+                earned.push('hard_mode_master');
+            }
+
+            const allMastered = Object.values(progressData.lifetime.structures).every(s => s.consecutiveCorrect >= 3);
+            if (allMastered && !earned.includes('all_mastered')) {
+                earned.push('all_mastered');
+            }
+
+            if (progressData.session.currentStreak >= 5 && !earned.includes('streak_5')) {
+                earned.push('streak_5');
+            }
+
+            if (progressData.lifetime.totalAttempts >= 10 && !earned.includes('practice_10')) {
+                earned.push('practice_10');
+            }
+
+            displayAchievements();
+        }
+
+        function displayAchievements() {
+            const container = document.getElementById('achievementContainer');
+            container.innerHTML = '';
+
+            achievements.forEach(achievement => {
+                const earned = progressData.lifetime.achievements.includes(achievement.id);
+                const badge = document.createElement('div');
+                badge.className = 'achievement-badge' + (earned ? ' earned' : '');
+                badge.innerHTML = `
+                    <div class="achievement-icon">${achievement.icon}</div>
+                    <div class="achievement-details">
+                        <div class="achievement-name">${achievement.name}</div>
+                        <div class="achievement-desc">${achievement.desc}</div>
+                    </div>
+                `;
+                container.appendChild(badge);
+            });
+        }
+
+        function updateAllDisplays() {
+            // Session stats
+            document.getElementById('currentScore').textContent = '0/6';
+            document.getElementById('sessionAttempts').textContent = progressData.session.attempts;
+            document.getElementById('currentStreak').textContent = progressData.session.currentStreak;
+
+            // Update mastery list
+            updateMasteryList();
+        }
+
+        function updateMasteryList() {
+            const container = document.getElementById('masteryList');
+            container.innerHTML = '';
+
+            Object.entries(progressData.lifetime.structures).forEach(([num, data]) => {
+                const total = data.correct + data.incorrect;
+                const accuracy = total > 0 ? Math.round((data.correct / total) * 100) : 0;
+                const isMastered = data.consecutiveCorrect >= 3;
+                const isLearning = data.consecutiveCorrect > 0 && data.consecutiveCorrect < 3;
+
+                const item = document.createElement('div');
+                item.className = 'mastery-item' + (isMastered ? ' mastered' : isLearning ? ' learning' : '');
+                item.innerHTML = `
+                    <div class="mastery-icon">${isMastered ? '✅' : isLearning ? '📖' : '⚪'}</div>
+                    <div class="mastery-details">
+                        <div class="mastery-name">${num}. ${data.name}</div>
+                        <div class="mastery-stats">
+                            ${total > 0 ? `${accuracy}% accuracy (${data.correct}/${total})` : 'Not yet attempted'}
+                            ${isMastered ? ' • Mastered!' : isLearning ? ` • ${data.consecutiveCorrect}/3 streak` : ''}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function updateProgressDashboard() {
+            // Personal bests
+            document.getElementById('bestEasyScore').textContent = `${progressData.lifetime.bestScores.easy}/6`;
+            document.getElementById('bestHardScore').textContent = `${progressData.lifetime.bestScores.hard}/6`;
+            document.getElementById('totalAttempts').textContent = progressData.lifetime.totalAttempts;
+            document.getElementById('bestStreak').textContent = progressData.session.bestStreak;
+
+            // Overall accuracy
+            const totalCorrect = progressData.lifetime.easyMode.correct + progressData.lifetime.hardMode.correct;
+            const totalAnswers = (progressData.lifetime.easyMode.attempts + progressData.lifetime.hardMode.attempts) * 6;
+            const overallAccuracy = totalAnswers > 0 ? Math.round((totalCorrect / totalAnswers) * 100) : 0;
+
+            document.getElementById('overallAccuracy').textContent = overallAccuracy + '%';
+            document.getElementById('totalCorrect').textContent = totalCorrect + ' correct';
+            document.getElementById('totalIncorrect').textContent = (totalAnswers - totalCorrect) + ' incorrect';
+
+            // Progress ring
+            const circle = document.getElementById('overallProgressCircle');
+            const radius = 52;
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (overallAccuracy / 100) * circumference;
+            circle.style.strokeDasharray = `${circumference} ${circumference}`;
+            circle.style.strokeDashoffset = offset;
+
+            // Mode-specific performance
+            const easyAccuracy = progressData.lifetime.easyMode.attempts > 0
+                ? Math.round((progressData.lifetime.easyMode.correct / (progressData.lifetime.easyMode.attempts * 6)) * 100)
+                : 0;
+            const hardAccuracy = progressData.lifetime.hardMode.attempts > 0
+                ? Math.round((progressData.lifetime.hardMode.correct / (progressData.lifetime.hardMode.attempts * 6)) * 100)
+                : 0;
+
+            document.getElementById('easyModeBar').style.width = easyAccuracy + '%';
+            document.getElementById('easyModePercent').textContent = easyAccuracy + '%';
+            document.getElementById('hardModeBar').style.width = hardAccuracy + '%';
+            document.getElementById('hardModePercent').textContent = hardAccuracy + '%';
+
+            // Structure-specific accuracy
+            const chartContainer = document.getElementById('structureAccuracyChart');
+            chartContainer.innerHTML = '';
+
+            Object.entries(progressData.lifetime.structures).forEach(([num, data]) => {
+                const total = data.correct + data.incorrect;
+                const accuracy = total > 0 ? Math.round((data.correct / total) * 100) : 0;
+
+                const barItem = document.createElement('div');
+                barItem.className = 'bar-item';
+                barItem.innerHTML = `
+                    <div class="bar-label">${data.name}</div>
+                    <div class="bar-wrapper">
+                        <div class="bar-fill" style="width: ${accuracy}%">
+                            <span class="bar-percentage">${accuracy}%</span>
+                        </div>
+                    </div>
+                `;
+                chartContainer.appendChild(barItem);
+            });
+
+            // Recommendations
+            updateRecommendations();
+        }
+
+        function updateRecommendations() {
+            const recommendations = [];
+
+            // Find weakest structures
+            const structuresByAccuracy = Object.entries(progressData.lifetime.structures)
+                .map(([num, data]) => {
+                    const total = data.correct + data.incorrect;
+                    return {
+                        name: data.name,
+                        accuracy: total > 0 ? (data.correct / total) : 1,
+                        total: total
+                    };
+                })
+                .filter(s => s.total > 0)
+                .sort((a, b) => a.accuracy - b.accuracy);
+
+            if (structuresByAccuracy.length > 0 && structuresByAccuracy[0].accuracy < 0.7) {
+                recommendations.push(`Focus on practicing: ${structuresByAccuracy.slice(0, 2).map(s => s.name).join(', ')}`);
+            }
+
+            // Mode recommendation
+            const easyAttempts = progressData.lifetime.easyMode.attempts;
+            const hardAttempts = progressData.lifetime.hardMode.attempts;
+            if (easyAttempts > 5 && hardAttempts === 0) {
+                recommendations.push('Challenge yourself with Hard Mode to test your recall ability!');
+            }
+
+            // Spaced repetition
+            const oldestAttempt = Object.values(progressData.lifetime.structures)
+                .filter(s => s.lastAttempt)
+                .sort((a, b) => a.lastAttempt - b.lastAttempt)[0];
+
+            if (oldestAttempt && oldestAttempt.lastAttempt) {
+                const daysSince = Math.floor((Date.now() - oldestAttempt.lastAttempt) / (1000 * 60 * 60 * 24));
+                if (daysSince >= 3) {
+                    recommendations.push('Great time to review! It\'s been a few days since your last practice.');
+                }
+            }
+
+            // Mastery encouragement
+            const masteredCount = Object.values(progressData.lifetime.structures)
+                .filter(s => s.consecutiveCorrect >= 3).length;
+            if (masteredCount > 0 && masteredCount < 6) {
+                recommendations.push(`You've mastered ${masteredCount}/6 structures. Keep going!`);
+            }
+
+            // Display recommendations
+            const list = document.getElementById('recommendationsList');
+            list.innerHTML = '';
+            if (recommendations.length === 0) {
+                recommendations.push('Keep practicing to get personalized recommendations!');
+            }
+            recommendations.forEach(rec => {
+                const li = document.createElement('li');
+                li.textContent = rec;
+                list.appendChild(li);
+            });
+        }
+
+        function showResults(correctCount, results) {
+            const resultsSummary = document.getElementById('resultsSummary');
+            let html = `<h3>Results: ${correctCount}/6 Correct</h3>`;
+
+            if (correctCount === 6) {
+                html += `<p style="color: #48bb78; font-weight: 600;">Perfect! You've mastered all brain structures!</p>`;
+            } else {
+                html += `<p style="color: #4a5568;">Review the incorrect answers below:</p><ul style="margin-top: 10px;">`;
+                results.forEach(result => {
+                    if (!result.correct) {
+                        html += `<li style="color: #fc8181; padding: 5px 0;"><strong>${result.number}.</strong> Your answer: "${result.userAnswer}" | Correct: <strong>${result.correctAnswer}</strong></li>`;
+                    }
+                });
+                html += `</ul>`;
+            }
+
+            resultsSummary.innerHTML = html;
+            resultsSummary.classList.add('show');
+
+            // Update current score display
+            document.getElementById('currentScore').textContent = `${correctCount}/6`;
+        }
+
+        function showCompletion() {
+            const completionMessage = document.getElementById('completionMessage');
+            completionMessage.classList.add('show');
+        }
+
+        function tryAgain() {
+            for (let i = 1; i <= 6; i++) {
+                const input = document.getElementById(`answer${i}`);
+                const feedback = document.getElementById(`feedback${i}`);
+
+                if (input.classList.contains('incorrect')) {
+                    input.value = '';
+                    input.classList.remove('incorrect');
+                    feedback.textContent = '';
+                }
+            }
+
+            checked = false;
+            document.getElementById('tryAgainBtn').style.display = 'none';
+            document.getElementById('resultsSummary').classList.remove('show');
+        }
+
+        function clearFeedback() {
+            for (let i = 1; i <= 6; i++) {
+                const input = document.getElementById(`answer${i}`);
+                const feedback = document.getElementById(`feedback${i}`);
+                input.classList.remove('correct', 'incorrect');
+                feedback.textContent = '';
+            }
+            checked = false;
+            document.getElementById('tryAgainBtn').style.display = 'none';
+            document.getElementById('resultsSummary').classList.remove('show');
+        }
+
+        function resetExercise() {
+            for (let i = 1; i <= 6; i++) {
+                const input = document.getElementById(`answer${i}`);
+                const feedback = document.getElementById(`feedback${i}`);
+                input.value = '';
+                input.classList.remove('correct', 'incorrect');
+                feedback.textContent = '';
+            }
+
+            checked = false;
+            document.getElementById('currentScore').textContent = '0/6';
+            document.getElementById('tryAgainBtn').style.display = 'none';
+            document.getElementById('resultsSummary').classList.remove('show');
+            document.getElementById('completionMessage').classList.remove('show');
+        }
+    </script>
+</body>
+</html>
