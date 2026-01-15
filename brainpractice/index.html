@@ -1,10 +1,12 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Understanding Your Learning Brain - Interactive Pathway</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -1256,7 +1258,10 @@
 
                 <div class="flashcard-controls">
                     <div class="card-counter" id="cardCounter">Card 1 of 10</div>
-                    <button class="shuffle-btn" onclick="shuffleCards()">🔀 Shuffle Cards</button>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="shuffle-btn" onclick="shuffleCards()">🔀 Shuffle Cards</button>
+                        <button class="shuffle-btn" onclick="downloadPDF()">📄 Download Study Sheet</button>
+                    </div>
                 </div>
 
                 <div class="flashcard-container">
@@ -1395,16 +1400,86 @@
         };
 
         const flashcardsData = [
-            { q: "What is the difference between working memory and long-term memory?", a: "Working memory supports brief, active processing and has limited capacity. Long-term memory stores knowledge in a durable form and is not tightly capacity-limited." },
-            { q: "What are the three key processes of memory?", a: "Encoding (processing information so it can be stored), storage (maintaining information over time), and retrieval (accessing stored information when needed)." },
-            { q: "What is the role of the hippocampus in memory consolidation?", a: "The hippocampus plays a key role in forming and consolidating new declarative memories by helping stabilize and reorganize them over time, a process supported by sleep. Its involvement in retrieval is strongest for recent memories and may decrease as memories become more established in the cortex." },
-            { q: "What is the spacing effect and why does it work?", a: "The spacing effect refers to the finding that distributing practice over time leads to better long-term retention than massed practice (cramming). Spacing supports memory consolidation and creates effortful retrieval opportunities that strengthen learning." },
-            { q: "What is the testing effect (retrieval practice)?", a: "Testing yourself strengthens memory more than re-studying. Each retrieval attempt makes the memory more accessible in the future. This is why practice tests are more effective than re-reading notes." },
-            { q: "What is elaborative rehearsal?", a: "Elaborative rehearsal involves connecting new information to existing knowledge through meaningful associations. It creates stronger, more accessible memories than simple repetition (maintenance rehearsal)." },
-            { q: "What is chunking and why is it useful?", a: "Chunking groups individual pieces of information into larger, meaningful units (chunks). This makes it easier for working memory to handle more information at once, such as remembering a 10-digit phone number as three chunks instead of 10 separate digits." },
-            { q: "What is cognitive load theory?", a: "Cognitive load theory states that working memory has limited capacity. Effective instruction manages intrinsic load (task complexity), reduces extraneous load (irrelevant information), and supports germane load (schema building)." },
-            { q: "What is the difference between explicit and implicit memory?", a: "Explicit (declarative) memory involves conscious recollection of facts and events (e.g., remembering your breakfast). Implicit (procedural) memory involves unconscious skills and habits (e.g., riding a bike)." },
-            { q: "Why is interleaving more effective than blocking for learning?", a: "Interleaving mixes different types of problems or concepts during practice, while blocking practices one type at a time. Interleaving improves discrimination between concepts and long-term retention, though it feels harder initially." }
+            {
+                q: "What is the difference between working memory and long-term memory?",
+                a: "Working memory supports brief, active processing and has limited capacity. Long-term memory stores knowledge in a durable form and is not tightly capacity-limited.",
+                citations: [
+                    "Cowan, N. (2010). The magical mystery four: How is working memory capacity limited? Current Directions in Psychological Science.",
+                    "Baddeley, A. (2012). Working memory: Theories, models, and controversies. Annual Review of Psychology."
+                ]
+            },
+            {
+                q: "What are the three key processes of memory?",
+                a: "Encoding (processing information so it can be stored), storage (maintaining information over time), and retrieval (accessing stored information when needed).",
+                citations: [
+                    "Atkinson, R. C., & Shiffrin, R. M. (1968). Human memory: A proposed system and its control processes.",
+                    "McDermott, K. B., & Roediger, H. L. (2014). Memory (encoding, storage, retrieval) overview. APA Handbook of Cognitive Psychology."
+                ]
+            },
+            {
+                q: "What is the role of the hippocampus in memory consolidation?",
+                a: "The hippocampus plays a key role in forming and consolidating new declarative memories by helping stabilize and reorganize them over time, a process supported by sleep. Its involvement in retrieval is strongest for recent memories and may decrease as memories become more established in the cortex.",
+                citations: [
+                    "Squire, L. R., & Wixted, J. T. (2011). The cognitive neuroscience of human memory since H.M. Annual Review of Neuroscience.",
+                    "Frankland, P. W., & Bontempi, B. (2005). The organization of recent and remote memories. Nature Reviews Neuroscience."
+                ]
+            },
+            {
+                q: "What is the spacing effect and why does it work?",
+                a: "The spacing effect refers to the finding that distributing practice over time leads to better long-term retention than massed practice (cramming). Spacing supports memory consolidation and creates effortful retrieval opportunities that strengthen learning.",
+                citations: [
+                    "Cepeda, N. J. et al. (2006). Distributed practice in verbal recall tasks: A review and quantitative synthesis. Psychological Bulletin.",
+                    "Dunlosky, J. et al. (2013). Improving students' learning with effective learning techniques. Psychological Science in the Public Interest."
+                ]
+            },
+            {
+                q: "What is the testing effect (retrieval practice)?",
+                a: "Testing yourself strengthens memory more than re-studying. Each retrieval attempt makes the memory more accessible in the future. This is why practice tests are more effective than re-reading notes.",
+                citations: [
+                    "Roediger, H. L., & Karpicke, J. D. (2006). Test-enhanced learning: Taking memory tests improves long-term retention. Psychological Science.",
+                    "Rowland, C. A. (2014). The effect of testing versus restudy on retention: A meta-analytic review. Psychological Bulletin."
+                ]
+            },
+            {
+                q: "What is elaborative rehearsal?",
+                a: "Elaborative rehearsal involves connecting new information to existing knowledge through meaningful associations. It creates stronger, more accessible memories than simple repetition (maintenance rehearsal).",
+                citations: [
+                    "APA Dictionary of Psychology: Elaborative rehearsal.",
+                    "Craik, F. I. M., & Lockhart, R. S. (1972). Levels of processing: A framework for memory research. Journal of Verbal Learning and Verbal Behavior."
+                ]
+            },
+            {
+                q: "What is chunking and why is it useful?",
+                a: "Chunking groups individual pieces of information into larger, meaningful units (chunks). This makes it easier for working memory to handle more information at once, such as remembering a 10-digit phone number as three chunks instead of 10 separate digits.",
+                citations: [
+                    "Miller, G. A. (1956). The magical number seven, plus or minus two: Some limits on our capacity for processing information. Psychological Review.",
+                    "Gobet, F. et al. (2001). Chunking mechanisms in human learning. Trends in Cognitive Sciences."
+                ]
+            },
+            {
+                q: "What is cognitive load theory?",
+                a: "Cognitive load theory states that working memory has limited capacity. Effective instruction manages intrinsic load (task complexity), reduces extraneous load (irrelevant information), and supports germane load (schema building).",
+                citations: [
+                    "Sweller, J. (1988). Cognitive load during problem solving: Effects on learning. Cognitive Science.",
+                    "Sweller, J., van Merrienboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review."
+                ]
+            },
+            {
+                q: "What is the difference between explicit and implicit memory?",
+                a: "Explicit (declarative) memory involves conscious recollection of facts and events (e.g., remembering your breakfast). Implicit (procedural) memory involves unconscious skills and habits (e.g., riding a bike).",
+                citations: [
+                    "Squire, L. R. (2004). Memory systems of the brain: A brief history and current perspective. Neurobiology of Learning and Memory.",
+                    "Verywell Mind: Implicit Memory vs. Explicit Memory: How They Work."
+                ]
+            },
+            {
+                q: "Why is interleaving more effective than blocking for learning?",
+                a: "Interleaving mixes different types of problems or concepts during practice, while blocking practices one type at a time. Interleaving improves discrimination between concepts and long-term retention, though it feels harder initially.",
+                citations: [
+                    "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems improves learning. Instructional Science.",
+                    "Brunmair, M., & Richter, T. (2019). Interleaved practice: A meta-analysis. Psychological Bulletin."
+                ]
+            }
         ];
 
         let currentMode = 'easy';
@@ -1853,6 +1928,77 @@
             updateBrainDisplays();
             updateFlashcardProgress();
             calculateOverallProgress();
+        }
+
+        // PDF Generation
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Title
+            doc.setFontSize(20);
+            doc.setFont(undefined, 'bold');
+            doc.text('Memory & Learning Concepts Study Sheet', 105, 20, { align: 'center' });
+
+            // Subtitle
+            doc.setFontSize(12);
+            doc.setFont(undefined, 'normal');
+            doc.text('Understanding Your Learning Brain - Flashcard Reference', 105, 28, { align: 'center' });
+
+            let yPosition = 40;
+            const pageHeight = doc.internal.pageSize.height;
+            const margin = 20;
+            const maxWidth = 170;
+
+            flashcardsData.forEach((card, index) => {
+                // Check if we need a new page (increased buffer for citations)
+                if (yPosition > pageHeight - 80) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+
+                // Question number and text
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'bold');
+                const questionLines = doc.splitTextToSize(`${index + 1}. ${card.q}`, maxWidth);
+                doc.text(questionLines, margin, yPosition);
+                yPosition += (questionLines.length * 6) + 2;
+
+                // Answer
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'normal');
+                const answerLines = doc.splitTextToSize(card.a, maxWidth);
+                doc.text(answerLines, margin, yPosition);
+                yPosition += (answerLines.length * 6) + 4;
+
+                // Citations
+                if (card.citations && card.citations.length > 0) {
+                    doc.setFontSize(9);
+                    doc.setTextColor(80);
+                    doc.setFont(undefined, 'italic');
+
+                    card.citations.forEach((citation, citIndex) => {
+                        const citationLines = doc.splitTextToSize(`[${citIndex + 1}] ${citation}`, maxWidth - 5);
+                        doc.text(citationLines, margin + 5, yPosition);
+                        yPosition += (citationLines.length * 5);
+                    });
+
+                    // Reset text color and add spacing
+                    doc.setTextColor(0);
+                    yPosition += 6;
+                }
+            });
+
+            // Footer on last page
+            doc.setFontSize(9);
+            doc.setTextColor(100);
+            doc.setFont(undefined, 'normal');
+            const finalY = doc.internal.pageSize.height - 15;
+            doc.text('Generated from: Understanding Your Learning Brain Interactive Pathway', 105, finalY, { align: 'center' });
+            doc.text('Developed with ClaudeCode by: Nina Huntemann', 105, finalY + 5, { align: 'center' });
+
+            // Save the PDF
+            doc.save('Memory-Learning-Concepts-Study-Sheet.pdf');
         }
     </script>
 </body>
