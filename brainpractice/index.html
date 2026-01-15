@@ -1,0 +1,1859 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Your Learning Brain - Interactive Pathway</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #2d3748;
+        }
+
+        /* Global Navigation */
+        .global-nav {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .nav-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-pages {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .nav-page {
+            padding: 10px 20px;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .nav-page.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .nav-page.completed {
+            border-color: #48bb78;
+            background: #f0fff4;
+            color: #48bb78;
+        }
+
+        .nav-page.completed::after {
+            content: " ✓";
+        }
+
+        .nav-page:hover:not(.active) {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .progress-pill {
+            background: #f7fafc;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            border: 2px solid #e2e8f0;
+        }
+
+        .progress-pill .percentage {
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        /* Page Container */
+        .page-container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Page Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* PAGE 1 - INTRODUCTION */
+        .intro-page {
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .intro-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .intro-header h1 {
+            font-size: 3rem;
+            color: #2d3748;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .intro-header .subtitle {
+            font-size: 1.3rem;
+            color: #718096;
+        }
+
+        .intro-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .intro-visual {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 40px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .brain-icon {
+            font-size: 8rem;
+            margin-bottom: 20px;
+        }
+
+        .intro-visual h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .intro-visual p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: center;
+            opacity: 0.95;
+        }
+
+        .intro-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .intro-text h2 {
+            font-size: 2rem;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+
+        .intro-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+
+        .key-concepts {
+            background: #f7fafc;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+
+        .key-concepts h3 {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .concepts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .concept-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .concept-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .concept-card h4 {
+            font-size: 1.2rem;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .concept-card p {
+            font-size: 0.95rem;
+            color: #718096;
+            line-height: 1.6;
+        }
+
+        .learning-path-preview {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .learning-path-preview h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .path-steps {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .path-step {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 200px;
+        }
+
+        .path-step-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .path-step-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .start-btn {
+            margin: 40px auto 0;
+            display: block;
+            padding: 20px 60px;
+            font-size: 1.3rem;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* PAGE 2 - BRAIN LABELING (Existing styles adapted) */
+        .labeling-page {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 2.2rem;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        .session-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card.secondary {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+
+        .stat-card.tertiary {
+            background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .mode-toggle {
+            display: flex;
+            background: #edf2f7;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .mode-btn {
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            color: #4a5568;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        .mode-btn.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .brain-section {
+            background: #f7fafc;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .brain-section h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        #brainImage {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .structure-mastery {
+            margin-top: 20px;
+        }
+
+        .mastery-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #e2e8f0;
+        }
+
+        .mastery-item.mastered {
+            border-left-color: #48bb78;
+            background: #f0fff4;
+        }
+
+        .mastery-item.learning {
+            border-left-color: #f6ad55;
+            background: #fffaf0;
+        }
+
+        .mastery-icon {
+            font-size: 1.5rem;
+        }
+
+        .mastery-details {
+            flex: 1;
+        }
+
+        .mastery-name {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .mastery-stats {
+            font-size: 0.85rem;
+            color: #718096;
+        }
+
+        .answers-section {
+            background: #f7fafc;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .answers-section h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .answer-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 1.1rem;
+            min-width: 25px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-group input.correct {
+            border-color: #48bb78;
+            background-color: #f0fff4;
+        }
+
+        .input-group input.incorrect {
+            border-color: #fc8181;
+            background-color: #fff5f5;
+        }
+
+        .feedback-icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .word-bank {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px dashed #cbd5e0;
+            margin-bottom: 20px;
+        }
+
+        .word-bank.hidden {
+            display: none;
+        }
+
+        .word-bank h3 {
+            color: #4a5568;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .word-bank-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .word-bank-item {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-check {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .results-summary {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #667eea;
+            display: none;
+        }
+
+        .results-summary.show {
+            display: block;
+            animation: slideIn 0.5s;
+        }
+
+        .results-summary h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .results-summary p {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* PAGE 3 - FLASHCARDS */
+        .flashcards-page {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            min-height: 600px;
+        }
+
+        .flashcard-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .card-counter {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .shuffle-btn {
+            padding: 10px 20px;
+            background: #edf2f7;
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .shuffle-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .flashcard-container {
+            perspective: 1000px;
+            margin-bottom: 30px;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flashcard {
+            width: 100%;
+            max-width: 700px;
+            height: 400px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-label {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .flashcard-content {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .flashcard-back .flashcard-content {
+            font-size: 1.4rem;
+            line-height: 1.6;
+        }
+
+        .flip-hint {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .card-assessment {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .assess-btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 180px;
+        }
+
+        .know-btn {
+            background: #48bb78;
+            color: white;
+        }
+
+        .know-btn:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+        }
+
+        .learning-btn {
+            background: #f6ad55;
+            color: white;
+        }
+
+        .learning-btn:hover {
+            background: #ed8936;
+            transform: translateY(-2px);
+        }
+
+        .flashcard-progress {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .progress-item {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .progress-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        /* Dashboard Modal */
+        .dashboard-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .dashboard-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dashboard-modal {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 1000px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-dashboard {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #718096;
+            background: none;
+            border: none;
+        }
+
+        .dashboard-header {
+            margin-bottom: 30px;
+        }
+
+        .dashboard-header h2 {
+            font-size: 2rem;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .overall-progress {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .overall-progress h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .overall-percentage {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .activity-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .activity-card {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .activity-card h4 {
+            font-size: 1.3rem;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .activity-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .activity-stat:last-child {
+            border-bottom: none;
+        }
+
+        .recommendations-box {
+            background: #fffbeb;
+            border-left: 4px solid #f6ad55;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .recommendations-box h4 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .recommendations-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recommendations-box li {
+            padding: 8px 0;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .recommendations-box li:before {
+            content: "→";
+            color: #f6ad55;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .intro-page {
+                padding: 30px 20px;
+            }
+
+            .intro-header h1 {
+                font-size: 2rem;
+            }
+
+            .intro-content {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-pages {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .nav-page {
+                width: 100%;
+            }
+
+            .concepts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flashcard {
+                height: 350px;
+            }
+
+            .flashcard-content {
+                font-size: 1.5rem;
+            }
+
+            .card-assessment {
+                flex-direction: column;
+            }
+
+            .assess-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Global Navigation -->
+    <nav class="global-nav">
+        <div class="nav-content">
+            <div class="nav-title">🧠 Learning Brain Pathway</div>
+            <div class="nav-pages">
+                <button class="nav-page active" data-page="1">1. Introduction</button>
+                <button class="nav-page" data-page="2">2. Brain Labeling</button>
+                <button class="nav-page" data-page="3">3. Memory Concepts</button>
+            </div>
+            <div class="progress-pill">
+                <span class="percentage" id="overallProgress">0%</span> Complete
+            </div>
+            <button class="btn btn-secondary" onclick="openDashboard()">📊 Dashboard</button>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <!-- PAGE 1: INTRODUCTION -->
+        <div class="page active" id="page1">
+            <div class="intro-page">
+                <div class="intro-header">
+                    <h1>Understanding Your Learning Brain</h1>
+                    <p class="subtitle">Discover how your brain creates, stores, and retrieves memories</p>
+                </div>
+
+                <div class="intro-content">
+                    <div class="intro-visual">
+                        <div class="brain-icon">🧠</div>
+                        <h2>Your Brain is Remarkable</h2>
+                        <p>Every moment you're learning, your brain physically changes through neuroplasticity—forming new connections and strengthening pathways with each practice session.</p>
+                    </div>
+
+                    <div class="intro-text">
+                        <h2>Why Understanding Brain Structures Matters</h2>
+                        <p>As an educator, understanding how different brain regions support learning helps you design more effective teaching strategies. When you know <strong>where</strong> learning happens, you can better understand <strong>how</strong> it happens.</p>
+
+                        <p>The structures you'll explore aren't just anatomical terms—they're the physical foundation of every memory your students form, every skill they master, and every concept they understand.</p>
+
+                        <p>Research shows that <strong>retrieval practice</strong> (testing yourself) is one of the most powerful learning techniques. By actively recalling information instead of passively reviewing it, you strengthen neural pathways and improve long-term retention.</p>
+                    </div>
+                </div>
+
+                <div class="key-concepts">
+                    <h3>🎯 Key Learning Science Concepts You'll Master</h3>
+                    <div class="concepts-grid">
+                        <div class="concept-card">
+                            <div class="concept-icon">🔄</div>
+                            <h4>Retrieval Practice</h4>
+                            <p>Testing yourself strengthens memories more effectively than re-reading. Each retrieval attempt makes future recall easier.</p>
+                        </div>
+                        <div class="concept-card">
+                            <div class="concept-icon">📊</div>
+                            <h4>Spacing Effect</h4>
+                            <p>Distributing practice over time leads to better retention than cramming. Your brain consolidates memories during breaks.</p>
+                        </div>
+                        <div class="concept-card">
+                            <div class="concept-icon">🧩</div>
+                            <h4>Elaborative Encoding</h4>
+                            <p>Connecting new information to existing knowledge creates stronger, more accessible memories.</p>
+                        </div>
+                        <div class="concept-card">
+                            <div class="concept-icon">⚡</div>
+                            <h4>Cognitive Load</h4>
+                            <p>Working memory has limits. Effective learning design respects these constraints while building long-term knowledge.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="learning-path-preview">
+                    <h3>Your Learning Journey</h3>
+                    <p style="font-size: 1.1rem; opacity: 0.95; margin-bottom: 20px;">This pathway uses evidence-based techniques to help you master brain anatomy and learning science</p>
+
+                    <div class="path-steps">
+                        <div class="path-step">
+                            <div class="path-step-number">1</div>
+                            <div class="path-step-title">Understand the Context</div>
+                        </div>
+                        <div class="path-step">
+                            <div class="path-step-number">2</div>
+                            <div class="path-step-title">Practice Brain Labeling</div>
+                        </div>
+                        <div class="path-step">
+                            <div class="path-step-number">3</div>
+                            <div class="path-step-title">Master Memory Concepts</div>
+                        </div>
+                    </div>
+
+                    <button class="start-btn" onclick="goToPage(2)">Start Learning →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 2: BRAIN LABELING -->
+        <div class="page" id="page2">
+            <div class="labeling-page">
+                <div class="page-title">
+                    <h1>Brain Structure Labeling</h1>
+                    <p>Identify the key structures involved in learning and memory</p>
+                </div>
+
+                <div class="session-stats">
+                    <div class="stat-card">
+                        <div class="stat-label">Current Score</div>
+                        <div class="stat-value" id="currentScore">0/6</div>
+                    </div>
+                    <div class="stat-card secondary">
+                        <div class="stat-label">Attempts Today</div>
+                        <div class="stat-value" id="sessionAttempts">0</div>
+                    </div>
+                    <div class="stat-card tertiary">
+                        <div class="stat-label">Best Score</div>
+                        <div class="stat-value" id="bestScore">0/6</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Mastery Level</div>
+                        <div class="stat-value" id="masteryLevel">0%</div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <div class="mode-toggle">
+                        <button class="mode-btn active" data-mode="easy">Easy Mode (with word bank)</button>
+                        <button class="mode-btn" data-mode="hard">Hard Mode (recall)</button>
+                    </div>
+                </div>
+
+                <div class="main-content">
+                    <div class="brain-section">
+                        <h2>Brain Diagram</h2>
+                        <img id="brainImage" src="Brain.png" alt="Brain diagram with numbered regions">
+
+                        <div class="structure-mastery">
+                            <h3 style="color: #2d3748; margin-bottom: 15px; font-size: 1.1rem;">Structure Mastery</h3>
+                            <div id="masteryList"></div>
+                        </div>
+                    </div>
+
+                    <div class="answers-section">
+                        <h2>Label the Structures</h2>
+
+                        <div class="word-bank" id="wordBank">
+                            <h3>📚 Word Bank:</h3>
+                            <div class="word-bank-items">
+                                <span class="word-bank-item">Frontal Lobe</span>
+                                <span class="word-bank-item">Temporal Lobe</span>
+                                <span class="word-bank-item">Parietal Lobe</span>
+                                <span class="word-bank-item">Occipital Lobe</span>
+                                <span class="word-bank-item">Cerebellum</span>
+                                <span class="word-bank-item">Spinal Cord</span>
+                            </div>
+                        </div>
+
+                        <div class="answer-inputs">
+                            <div class="input-group">
+                                <label>1.</label>
+                                <input type="text" id="answer1" placeholder="Enter structure name...">
+                                <span class="feedback-icon" id="feedback1"></span>
+                            </div>
+                            <div class="input-group">
+                                <label>2.</label>
+                                <input type="text" id="answer2" placeholder="Enter structure name...">
+                                <span class="feedback-icon" id="feedback2"></span>
+                            </div>
+                            <div class="input-group">
+                                <label>3.</label>
+                                <input type="text" id="answer3" placeholder="Enter structure name...">
+                                <span class="feedback-icon" id="feedback3"></span>
+                            </div>
+                            <div class="input-group">
+                                <label>4.</label>
+                                <input type="text" id="answer4" placeholder="Enter structure name...">
+                                <span class="feedback-icon" id="feedback4"></span>
+                            </div>
+                            <div class="input-group">
+                                <label>5.</label>
+                                <input type="text" id="answer5" placeholder="Enter structure name...">
+                                <span class="feedback-icon" id="feedback5"></span>
+                            </div>
+                            <div class="input-group">
+                                <label>6.</label>
+                                <input type="text" id="answer6" placeholder="Enter structure name...">
+                                <span class="feedback-icon" id="feedback6"></span>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="btn btn-primary btn-check" id="checkBtn">Check Answers</button>
+                            <button class="btn btn-secondary btn-check" id="tryAgainBtn" style="display: none;">Try Again</button>
+                            <button class="btn btn-secondary btn-check" id="resetBtn">Reset</button>
+                        </div>
+
+                        <div class="results-summary" id="resultsSummary"></div>
+                    </div>
+                </div>
+
+                <div class="page-nav">
+                    <button class="btn btn-secondary" onclick="goToPage(1)">← Previous</button>
+                    <button class="btn btn-primary" onclick="goToPage(3)">Next: Memory Concepts →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 3: FLASHCARDS -->
+        <div class="page" id="page3">
+            <div class="flashcards-page">
+                <div class="page-title">
+                    <h1>Memory & Learning Concepts</h1>
+                    <p>Test your understanding of key learning science principles</p>
+                </div>
+
+                <div class="flashcard-progress">
+                    <div class="progress-grid">
+                        <div class="progress-item">
+                            <div class="progress-value" id="cardsReviewed">0/10</div>
+                            <div class="progress-label">Cards Reviewed</div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-value" id="cardsKnown">0</div>
+                            <div class="progress-label">I Know This</div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-value" id="cardsLearning">0</div>
+                            <div class="progress-label">Still Learning</div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-value" id="masteryPercent">0%</div>
+                            <div class="progress-label">Mastery</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard-controls">
+                    <div class="card-counter" id="cardCounter">Card 1 of 10</div>
+                    <button class="shuffle-btn" onclick="shuffleCards()">🔀 Shuffle Cards</button>
+                </div>
+
+                <div class="flashcard-container">
+                    <div class="flashcard" id="flashcard" onclick="flipCard()">
+                        <div class="flashcard-face flashcard-front">
+                            <div class="flashcard-label">Question</div>
+                            <div class="flashcard-content" id="cardQuestion"></div>
+                            <div class="flip-hint">Click to reveal answer</div>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <div class="flashcard-label">Answer</div>
+                            <div class="flashcard-content" id="cardAnswer"></div>
+                            <div class="flip-hint">Click to flip back</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-assessment">
+                    <button class="assess-btn learning-btn" onclick="assessCard('learning')">
+                        📖 Still Learning
+                    </button>
+                    <button class="assess-btn know-btn" onclick="assessCard('know')">
+                        ✓ I Know This
+                    </button>
+                </div>
+
+                <div class="page-nav">
+                    <button class="btn btn-secondary" onclick="goToPage(2)">← Previous</button>
+                    <button class="btn btn-primary" onclick="openDashboard()">View Progress Dashboard →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Modal -->
+    <div class="dashboard-overlay" id="dashboardOverlay" onclick="closeDashboardIfOutside(event)">
+        <div class="dashboard-modal" onclick="event.stopPropagation()">
+            <button class="close-dashboard" onclick="closeDashboard()">×</button>
+
+            <div class="dashboard-header">
+                <h2>📊 Your Learning Progress</h2>
+                <p style="color: #718096;">Comprehensive analytics across all activities</p>
+            </div>
+
+            <div class="overall-progress">
+                <h3>Overall Pathway Completion</h3>
+                <div class="overall-percentage" id="dashboardOverallProgress">0%</div>
+                <p>Keep up the excellent work!</p>
+            </div>
+
+            <div class="activity-breakdown">
+                <div class="activity-card">
+                    <h4>🧠 Brain Labeling Activity</h4>
+                    <div class="activity-stat">
+                        <span>Total Attempts:</span>
+                        <strong id="dashboardBrainAttempts">0</strong>
+                    </div>
+                    <div class="activity-stat">
+                        <span>Best Score:</span>
+                        <strong id="dashboardBrainBest">0/6</strong>
+                    </div>
+                    <div class="activity-stat">
+                        <span>Overall Accuracy:</span>
+                        <strong id="dashboardBrainAccuracy">0%</strong>
+                    </div>
+                    <div class="activity-stat">
+                        <span>Structures Mastered:</span>
+                        <strong id="dashboardBrainMastered">0/6</strong>
+                    </div>
+                </div>
+
+                <div class="activity-card">
+                    <h4>💡 Memory Concepts Flashcards</h4>
+                    <div class="activity-stat">
+                        <span>Cards Reviewed:</span>
+                        <strong id="dashboardCardsReviewed">0/10</strong>
+                    </div>
+                    <div class="activity-stat">
+                        <span>Cards Mastered:</span>
+                        <strong id="dashboardCardsMastered">0</strong>
+                    </div>
+                    <div class="activity-stat">
+                        <span>Still Learning:</span>
+                        <strong id="dashboardCardsLearning">0</strong>
+                    </div>
+                    <div class="activity-stat">
+                        <span>Mastery Level:</span>
+                        <strong id="dashboardCardsMastery">0%</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recommendations-box">
+                <h4>💡 Personalized Recommendations</h4>
+                <ul id="dashboardRecommendations"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global Progress Data
+        const progressData = {
+            pages: {
+                1: { visited: false, completed: false },
+                2: { visited: false, completed: false },
+                3: { visited: false, completed: false }
+            },
+            brainLabeling: {
+                attempts: 0,
+                bestScore: 0,
+                currentMode: 'easy',
+                structures: {
+                    1: { name: "Frontal Lobe", correct: 0, incorrect: 0, consecutiveCorrect: 0 },
+                    2: { name: "Temporal Lobe", correct: 0, incorrect: 0, consecutiveCorrect: 0 },
+                    3: { name: "Spinal Cord", correct: 0, incorrect: 0, consecutiveCorrect: 0 },
+                    4: { name: "Parietal Lobe", correct: 0, incorrect: 0, consecutiveCorrect: 0 },
+                    5: { name: "Occipital Lobe", correct: 0, incorrect: 0, consecutiveCorrect: 0 },
+                    6: { name: "Cerebellum", correct: 0, incorrect: 0, consecutiveCorrect: 0 }
+                }
+            },
+            flashcards: {
+                currentIndex: 0,
+                reviewed: [],
+                known: [],
+                learning: []
+            }
+        };
+
+        const correctAnswers = {
+            1: { name: "Frontal Lobe", variations: ["frontal lobe", "frontal", "front lobe"] },
+            2: { name: "Temporal Lobe", variations: ["temporal lobe", "temporal", "temporallobe"] },
+            3: { name: "Spinal Cord", variations: ["spinal cord", "spinal", "spinalcord", "spine"] },
+            4: { name: "Parietal Lobe", variations: ["parietal lobe", "parietal", "parietallobe"] },
+            5: { name: "Occipital Lobe", variations: ["occipital lobe", "occipital", "occipitallobe"] },
+            6: { name: "Cerebellum", variations: ["cerebellum", "cerebelum", "cerrebellum"] }
+        };
+
+        const flashcardsData = [
+            { q: "What is the difference between working memory and long-term memory?", a: "Working memory holds information temporarily (seconds to minutes) for active processing, while long-term memory stores information indefinitely. Working memory has limited capacity (~7 items), whereas long-term memory is essentially unlimited." },
+            { q: "What are the three key processes of memory?", a: "Encoding (transforming information into a form that can be stored), Storage (maintaining information over time), and Retrieval (accessing stored information when needed)." },
+            { q: "What is the role of the hippocampus in memory consolidation?", a: "The hippocampus transfers information from temporary storage into long-term memory during consolidation, especially during sleep. It's essential for forming new declarative memories but not for retrieving old ones." },
+            { q: "What is the spacing effect and why does it work?", a: "The spacing effect shows that distributed practice over time leads to better retention than massed practice (cramming). It works because spacing allows time for consolidation and requires effortful retrieval, which strengthens memory." },
+            { q: "What is the testing effect (retrieval practice)?", a: "Testing yourself strengthens memory more than re-studying. Each retrieval attempt makes the memory more accessible in the future. This is why practice tests are more effective than re-reading notes." },
+            { q: "What is elaborative rehearsal?", a: "Elaborative rehearsal involves connecting new information to existing knowledge through meaningful associations. It creates stronger, more accessible memories than simple repetition (maintenance rehearsal)." },
+            { q: "What is chunking and why is it useful?", a: "Chunking groups individual pieces of information into larger, meaningful units. It helps overcome working memory limits by allowing you to hold more information (e.g., remembering a phone number as three chunks instead of 10 digits)." },
+            { q: "What is cognitive load theory?", a: "Cognitive load theory states that working memory has limited capacity. Effective instruction manages intrinsic load (task complexity), reduces extraneous load (irrelevant information), and supports germane load (schema building)." },
+            { q: "What is the difference between explicit and implicit memory?", a: "Explicit (declarative) memory involves conscious recollection of facts and events (e.g., remembering your breakfast). Implicit (procedural) memory involves unconscious skills and habits (e.g., riding a bike)." },
+            { q: "Why is interleaving more effective than blocking for learning?", a: "Interleaving mixes different types of problems or concepts during practice, while blocking practices one type at a time. Interleaving improves discrimination between concepts and long-term retention, though it feels harder initially." }
+        ];
+
+        let currentMode = 'easy';
+        let checked = false;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', init);
+
+        function init() {
+            loadProgress();
+            setupNavigation();
+            setupBrainLabeling();
+            setupFlashcards();
+            markPageVisited(1);
+            updateAllDisplays();
+        }
+
+        // Load/Save Progress
+        function loadProgress() {
+            const saved = localStorage.getItem('brainPathwayProgress');
+            if (saved) {
+                Object.assign(progressData, JSON.parse(saved));
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem('brainPathwayProgress', JSON.stringify(progressData));
+        }
+
+        // Navigation
+        function setupNavigation() {
+            document.querySelectorAll('.nav-page').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const pageNum = parseInt(btn.dataset.page);
+                    goToPage(pageNum);
+                });
+            });
+        }
+
+        function goToPage(pageNum) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(`page${pageNum}`).classList.add('active');
+
+            document.querySelectorAll('.nav-page').forEach(btn => {
+                btn.classList.remove('active');
+                if (parseInt(btn.dataset.page) === pageNum) {
+                    btn.classList.add('active');
+                }
+            });
+
+            markPageVisited(pageNum);
+            window.scrollTo(0, 0);
+        }
+
+        function markPageVisited(pageNum) {
+            progressData.pages[pageNum].visited = true;
+            updateNavButtons();
+            saveProgress();
+        }
+
+        function markPageCompleted(pageNum) {
+            progressData.pages[pageNum].completed = true;
+            updateNavButtons();
+            calculateOverallProgress();
+            saveProgress();
+        }
+
+        function updateNavButtons() {
+            document.querySelectorAll('.nav-page').forEach(btn => {
+                const pageNum = parseInt(btn.dataset.page);
+                if (progressData.pages[pageNum].completed) {
+                    btn.classList.add('completed');
+                }
+            });
+        }
+
+        function calculateOverallProgress() {
+            let total = 0;
+
+            // Page 1: auto-complete on visit
+            if (progressData.pages[1].visited) total += 10;
+
+            // Page 2: based on brain labeling mastery
+            const masteredStructures = Object.values(progressData.brainLabeling.structures)
+                .filter(s => s.consecutiveCorrect >= 3).length;
+            total += (masteredStructures / 6) * 45;
+
+            // Page 3: based on flashcards mastery
+            total += (progressData.flashcards.known.length / 10) * 45;
+
+            const percentage = Math.round(total);
+            document.getElementById('overallProgress').textContent = percentage + '%';
+            document.getElementById('dashboardOverallProgress').textContent = percentage + '%';
+
+            return percentage;
+        }
+
+        // Brain Labeling Setup
+        function setupBrainLabeling() {
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentMode = btn.dataset.mode;
+                    progressData.brainLabeling.currentMode = currentMode;
+                    updateModeDisplay();
+                    resetBrainExercise();
+                });
+            });
+
+            document.getElementById('checkBtn').addEventListener('click', checkBrainAnswers);
+            document.getElementById('tryAgainBtn').addEventListener('click', tryAgain);
+            document.getElementById('resetBtn').addEventListener('click', resetBrainExercise);
+
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById(`answer${i}`).addEventListener('input', () => {
+                    if (checked) clearFeedback();
+                });
+            }
+
+            updateBrainDisplays();
+        }
+
+        function updateModeDisplay() {
+            const wordBank = document.getElementById('wordBank');
+            if (currentMode === 'easy') {
+                wordBank.classList.remove('hidden');
+            } else {
+                wordBank.classList.add('hidden');
+            }
+        }
+
+        function checkBrainAnswers() {
+            checked = true;
+            let correctCount = 0;
+            const results = [];
+
+            progressData.brainLabeling.attempts++;
+
+            for (let i = 1; i <= 6; i++) {
+                const input = document.getElementById(`answer${i}`);
+                const feedback = document.getElementById(`feedback${i}`);
+                const userAnswer = input.value.trim().toLowerCase();
+                const correct = correctAnswers[i];
+
+                const isCorrect = correct.variations.some(v => v === userAnswer);
+                const structureData = progressData.brainLabeling.structures[i];
+
+                if (isCorrect) {
+                    input.classList.add('correct');
+                    feedback.textContent = '✓';
+                    feedback.style.color = '#48bb78';
+                    correctCount++;
+                    structureData.correct++;
+                    structureData.consecutiveCorrect++;
+                    results.push({ number: i, correct: true });
+                } else {
+                    input.classList.add('incorrect');
+                    feedback.textContent = '✗';
+                    feedback.style.color = '#fc8181';
+                    structureData.incorrect++;
+                    structureData.consecutiveCorrect = 0;
+                    results.push({ number: i, correct: false, correctAnswer: correct.name });
+                }
+            }
+
+            if (correctCount > progressData.brainLabeling.bestScore) {
+                progressData.brainLabeling.bestScore = correctCount;
+            }
+
+            if (correctCount === 6) {
+                markPageCompleted(2);
+            }
+
+            updateBrainDisplays();
+            showBrainResults(correctCount, results);
+            saveProgress();
+
+            if (correctCount < 6) {
+                document.getElementById('tryAgainBtn').style.display = 'inline-block';
+            }
+        }
+
+        function showBrainResults(correctCount, results) {
+            const summary = document.getElementById('resultsSummary');
+            let html = `<h3>Results: ${correctCount}/6 Correct</h3>`;
+
+            if (correctCount === 6) {
+                html += `<p style="color: #48bb78; font-weight: 600;">Perfect! All structures identified correctly!</p>`;
+            } else {
+                html += `<p style="color: #4a5568;">Review incorrect answers:</p><ul style="margin-top: 10px;">`;
+                results.forEach(r => {
+                    if (!r.correct) {
+                        html += `<li style="color: #fc8181; padding: 5px 0;"><strong>${r.number}.</strong> Correct: <strong>${r.correctAnswer}</strong></li>`;
+                    }
+                });
+                html += `</ul>`;
+            }
+
+            summary.innerHTML = html;
+            summary.classList.add('show');
+            document.getElementById('currentScore').textContent = `${correctCount}/6`;
+        }
+
+        function tryAgain() {
+            for (let i = 1; i <= 6; i++) {
+                const input = document.getElementById(`answer${i}`);
+                const feedback = document.getElementById(`feedback${i}`);
+                if (input.classList.contains('incorrect')) {
+                    input.value = '';
+                    input.classList.remove('incorrect');
+                    feedback.textContent = '';
+                }
+            }
+            checked = false;
+            document.getElementById('tryAgainBtn').style.display = 'none';
+            document.getElementById('resultsSummary').classList.remove('show');
+        }
+
+        function clearFeedback() {
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById(`answer${i}`).classList.remove('correct', 'incorrect');
+                document.getElementById(`feedback${i}`).textContent = '';
+            }
+            checked = false;
+            document.getElementById('tryAgainBtn').style.display = 'none';
+            document.getElementById('resultsSummary').classList.remove('show');
+        }
+
+        function resetBrainExercise() {
+            for (let i = 1; i <= 6; i++) {
+                const input = document.getElementById(`answer${i}`);
+                const feedback = document.getElementById(`feedback${i}`);
+                input.value = '';
+                input.classList.remove('correct', 'incorrect');
+                feedback.textContent = '';
+            }
+            checked = false;
+            document.getElementById('currentScore').textContent = '0/6';
+            document.getElementById('tryAgainBtn').style.display = 'none';
+            document.getElementById('resultsSummary').classList.remove('show');
+        }
+
+        function updateBrainDisplays() {
+            document.getElementById('sessionAttempts').textContent = progressData.brainLabeling.attempts;
+            document.getElementById('bestScore').textContent = `${progressData.brainLabeling.bestScore}/6`;
+
+            const masteredCount = Object.values(progressData.brainLabeling.structures)
+                .filter(s => s.consecutiveCorrect >= 3).length;
+            const masteryPercent = Math.round((masteredCount / 6) * 100);
+            document.getElementById('masteryLevel').textContent = masteryPercent + '%';
+
+            updateMasteryList();
+            calculateOverallProgress();
+        }
+
+        function updateMasteryList() {
+            const container = document.getElementById('masteryList');
+            container.innerHTML = '';
+
+            Object.entries(progressData.brainLabeling.structures).forEach(([num, data]) => {
+                const total = data.correct + data.incorrect;
+                const accuracy = total > 0 ? Math.round((data.correct / total) * 100) : 0;
+                const isMastered = data.consecutiveCorrect >= 3;
+                const isLearning = data.consecutiveCorrect > 0 && data.consecutiveCorrect < 3;
+
+                const item = document.createElement('div');
+                item.className = 'mastery-item' + (isMastered ? ' mastered' : isLearning ? ' learning' : '');
+                item.innerHTML = `
+                    <div class="mastery-icon">${isMastered ? '✅' : isLearning ? '📖' : '⚪'}</div>
+                    <div class="mastery-details">
+                        <div class="mastery-name">${num}. ${data.name}</div>
+                        <div class="mastery-stats">
+                            ${total > 0 ? `${accuracy}% accuracy` : 'Not attempted'}
+                            ${isMastered ? ' • Mastered!' : isLearning ? ` • ${data.consecutiveCorrect}/3` : ''}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Flashcards Setup
+        function setupFlashcards() {
+            displayCurrentCard();
+        }
+
+        function displayCurrentCard() {
+            const idx = progressData.flashcards.currentIndex;
+            if (idx < flashcardsData.length) {
+                document.getElementById('cardQuestion').textContent = flashcardsData[idx].q;
+                document.getElementById('cardAnswer').textContent = flashcardsData[idx].a;
+                document.getElementById('cardCounter').textContent = `Card ${idx + 1} of ${flashcardsData.length}`;
+                document.getElementById('flashcard').classList.remove('flipped');
+            }
+            updateFlashcardProgress();
+        }
+
+        function flipCard() {
+            document.getElementById('flashcard').classList.toggle('flipped');
+        }
+
+        function assessCard(assessment) {
+            const idx = progressData.flashcards.currentIndex;
+
+            if (!progressData.flashcards.reviewed.includes(idx)) {
+                progressData.flashcards.reviewed.push(idx);
+            }
+
+            if (assessment === 'know') {
+                if (!progressData.flashcards.known.includes(idx)) {
+                    progressData.flashcards.known.push(idx);
+                }
+                progressData.flashcards.learning = progressData.flashcards.learning.filter(i => i !== idx);
+            } else {
+                if (!progressData.flashcards.learning.includes(idx)) {
+                    progressData.flashcards.learning.push(idx);
+                }
+                progressData.flashcards.known = progressData.flashcards.known.filter(i => i !== idx);
+            }
+
+            progressData.flashcards.currentIndex++;
+
+            if (progressData.flashcards.currentIndex >= flashcardsData.length) {
+                progressData.flashcards.currentIndex = 0;
+            }
+
+            if (progressData.flashcards.known.length === 10) {
+                markPageCompleted(3);
+            }
+
+            displayCurrentCard();
+            saveProgress();
+        }
+
+        function shuffleCards() {
+            const unreviewed = [];
+            for (let i = 0; i < flashcardsData.length; i++) {
+                if (!progressData.flashcards.reviewed.includes(i)) {
+                    unreviewed.push(i);
+                }
+            }
+
+            if (unreviewed.length > 0) {
+                progressData.flashcards.currentIndex = unreviewed[Math.floor(Math.random() * unreviewed.length)];
+            } else {
+                progressData.flashcards.currentIndex = Math.floor(Math.random() * flashcardsData.length);
+            }
+
+            displayCurrentCard();
+        }
+
+        function updateFlashcardProgress() {
+            document.getElementById('cardsReviewed').textContent =
+                `${progressData.flashcards.reviewed.length}/${flashcardsData.length}`;
+            document.getElementById('cardsKnown').textContent = progressData.flashcards.known.length;
+            document.getElementById('cardsLearning').textContent = progressData.flashcards.learning.length;
+
+            const masteryPercent = Math.round((progressData.flashcards.known.length / flashcardsData.length) * 100);
+            document.getElementById('masteryPercent').textContent = masteryPercent + '%';
+
+            calculateOverallProgress();
+        }
+
+        // Dashboard
+        function openDashboard() {
+            updateDashboard();
+            document.getElementById('dashboardOverlay').classList.add('active');
+        }
+
+        function closeDashboard() {
+            document.getElementById('dashboardOverlay').classList.remove('active');
+        }
+
+        function closeDashboardIfOutside(event) {
+            if (event.target === document.getElementById('dashboardOverlay')) {
+                closeDashboard();
+            }
+        }
+
+        function updateDashboard() {
+            calculateOverallProgress();
+
+            // Brain labeling stats
+            document.getElementById('dashboardBrainAttempts').textContent = progressData.brainLabeling.attempts;
+            document.getElementById('dashboardBrainBest').textContent = `${progressData.brainLabeling.bestScore}/6`;
+
+            const totalBrainAttempts = progressData.brainLabeling.attempts * 6;
+            const totalBrainCorrect = Object.values(progressData.brainLabeling.structures)
+                .reduce((sum, s) => sum + s.correct, 0);
+            const brainAccuracy = totalBrainAttempts > 0 ? Math.round((totalBrainCorrect / totalBrainAttempts) * 100) : 0;
+            document.getElementById('dashboardBrainAccuracy').textContent = brainAccuracy + '%';
+
+            const masteredStructures = Object.values(progressData.brainLabeling.structures)
+                .filter(s => s.consecutiveCorrect >= 3).length;
+            document.getElementById('dashboardBrainMastered').textContent = `${masteredStructures}/6`;
+
+            // Flashcard stats
+            document.getElementById('dashboardCardsReviewed').textContent =
+                `${progressData.flashcards.reviewed.length}/${flashcardsData.length}`;
+            document.getElementById('dashboardCardsMastered').textContent = progressData.flashcards.known.length;
+            document.getElementById('dashboardCardsLearning').textContent = progressData.flashcards.learning.length;
+
+            const cardsMastery = Math.round((progressData.flashcards.known.length / flashcardsData.length) * 100);
+            document.getElementById('dashboardCardsMastery').textContent = cardsMastery + '%';
+
+            // Recommendations
+            const recommendations = [];
+
+            if (progressData.brainLabeling.attempts === 0) {
+                recommendations.push('Start the Brain Labeling exercise on Page 2');
+            } else if (masteredStructures < 6) {
+                recommendations.push(`Practice brain labeling to master ${6 - masteredStructures} more structures`);
+            }
+
+            if (progressData.brainLabeling.attempts > 3 && progressData.brainLabeling.currentMode === 'easy') {
+                recommendations.push('Challenge yourself with Hard Mode (no word bank)!');
+            }
+
+            if (progressData.flashcards.learning.length > 0) {
+                recommendations.push(`Review ${progressData.flashcards.learning.length} flashcards marked "Still Learning"`);
+            }
+
+            if (progressData.flashcards.reviewed.length === 0) {
+                recommendations.push('Begin reviewing Memory Concepts flashcards on Page 3');
+            }
+
+            if (masteredStructures === 6 && progressData.flashcards.known.length === 10) {
+                recommendations.push('Congratulations! You\'ve completed the entire pathway!');
+            }
+
+            if (recommendations.length === 0) {
+                recommendations.push('Keep practicing to maintain your knowledge!');
+            }
+
+            const list = document.getElementById('dashboardRecommendations');
+            list.innerHTML = '';
+            recommendations.forEach(rec => {
+                const li = document.createElement('li');
+                li.textContent = rec;
+                list.appendChild(li);
+            });
+        }
+
+        function updateAllDisplays() {
+            updateBrainDisplays();
+            updateFlashcardProgress();
+            calculateOverallProgress();
+        }
+    </script>
+</body>
+</html>
