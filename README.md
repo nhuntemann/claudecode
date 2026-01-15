@@ -1,2 +1,2 @@
 # claudecode
-Learning Experiments in Vibe Coding with Claude Code
+My Experiments in Vibe Coding with Claude Code.
