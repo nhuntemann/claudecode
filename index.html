@@ -14,34 +14,38 @@
         }
 
         :root {
-            --primary-blue: #2563eb;
-            --primary-purple: #7c3aed;
-            --dark-blue: #1e40af;
-            --light-blue: #dbeafe;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-600: #4b5563;
-            --gray-800: #1f2937;
-            --gray-900: #111827;
+            /* Modern Organic Color Palette */
+            --sage-dark: #5a6f5b;
+            --sage-medium: #7d9178;
+            --sage-light: #c4d3c2;
+            --sage-pale: #e8f0e7;
+            --terracotta-dark: #c47854;
+            --terracotta-medium: #d89872;
+            --terracotta-light: #e8c4b0;
+            --terracotta-pale: #f5e8e0;
+            --cream: #faf7f2;
+            --cream-dark: #f0ebe3;
+            --sand: #e8dfd3;
+            --charcoal: #3d3d3d;
+            --warm-gray: #6b6562;
             --white: #ffffff;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            --shadow-sm: 0 1px 3px 0 rgba(61, 61, 61, 0.08);
+            --shadow-md: 0 4px 8px -2px rgba(61, 61, 61, 0.12);
+            --shadow-lg: 0 10px 20px -5px rgba(61, 61, 61, 0.15);
+            --shadow-xl: 0 20px 30px -8px rgba(61, 61, 61, 0.18);
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
-            color: var(--gray-800);
-            background-color: var(--gray-50);
+            color: var(--charcoal);
+            background-color: var(--cream);
         }
 
         /* Navigation */
         nav {
             background: var(--white);
-            border-bottom: 1px solid var(--gray-200);
+            border-bottom: 2px solid var(--sage-pale);
             padding: 1rem 0;
             position: sticky;
             top: 0;
@@ -61,10 +65,7 @@
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--sage-dark);
         }
 
         .nav-links {
@@ -74,14 +75,14 @@
         }
 
         .nav-links a {
-            color: var(--gray-600);
+            color: var(--warm-gray);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s ease;
         }
 
         .nav-links a:hover {
-            color: var(--primary-blue);
+            color: var(--sage-dark);
         }
 
         /* Container */
@@ -98,17 +99,18 @@
         }
 
         .hero h1 {
-            font-size: 2.5rem;
+            font-size: 2.75rem;
             font-weight: 800;
-            color: var(--gray-900);
+            color: var(--charcoal);
             margin-bottom: 1rem;
             line-height: 1.2;
+            letter-spacing: -0.5px;
         }
 
         .hero h2 {
             font-size: 1.5rem;
             font-weight: 400;
-            color: var(--gray-600);
+            color: var(--sage-dark);
             margin-bottom: 2rem;
         }
 
@@ -116,7 +118,7 @@
             max-width: 800px;
             margin: 0 auto;
             font-size: 1.125rem;
-            color: var(--gray-600);
+            color: var(--warm-gray);
             line-height: 1.8;
         }
 
@@ -128,7 +130,7 @@
         .section-title {
             font-size: 2rem;
             font-weight: 700;
-            color: var(--gray-900);
+            color: var(--charcoal);
             margin-bottom: 2rem;
             text-align: center;
         }
@@ -144,11 +146,11 @@
         /* Project Card */
         .project-card {
             background: var(--white);
-            border-radius: 12px;
-            padding: 2rem;
+            border-radius: 20px;
+            padding: 2.5rem;
             box-shadow: var(--shadow-md);
             transition: all 0.3s ease;
-            border: 1px solid var(--gray-200);
+            border: 2px solid var(--sage-pale);
             display: flex;
             flex-direction: column;
         }
@@ -156,12 +158,13 @@
         .project-card:hover {
             box-shadow: var(--shadow-xl);
             transform: translateY(-4px);
+            border-color: var(--sage-light);
         }
 
         .project-card.coming-soon {
-            background: var(--gray-100);
-            border: 2px dashed var(--gray-200);
-            opacity: 0.6;
+            background: var(--cream-dark);
+            border: 2px dashed var(--sand);
+            opacity: 0.7;
             cursor: default;
         }
 
@@ -173,12 +176,12 @@
         .project-title {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--gray-900);
+            color: var(--charcoal);
             margin-bottom: 1rem;
         }
 
         .project-description {
-            color: var(--gray-600);
+            color: var(--warm-gray);
             margin-bottom: 1.5rem;
             flex-grow: 1;
             line-height: 1.7;
@@ -192,25 +195,32 @@
         }
 
         .tag {
-            background: linear-gradient(135deg, var(--light-blue), #e9d5ff);
-            color: var(--primary-blue);
+            background: var(--sage-pale);
+            color: var(--sage-dark);
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
             font-size: 0.875rem;
             font-weight: 500;
+            border: 1px solid var(--sage-light);
         }
 
         .learning-principles {
-            background: var(--gray-50);
-            border-left: 4px solid var(--primary-purple);
-            padding: 1rem;
+            background: var(--terracotta-pale);
+            border-left: 5px solid var(--terracotta-medium);
+            padding: 1.25rem;
             margin-bottom: 1.5rem;
-            border-radius: 4px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .learning-principles:hover {
+            border-left-width: 6px;
+            padding-left: 1.375rem;
         }
 
         .learning-principles-title {
             font-weight: 600;
-            color: var(--gray-900);
+            color: var(--terracotta-dark);
             margin-bottom: 0.5rem;
             font-size: 0.875rem;
             text-transform: uppercase;
@@ -218,20 +228,20 @@
         }
 
         .learning-principles-content {
-            color: var(--gray-600);
+            color: var(--warm-gray);
             font-size: 0.95rem;
         }
 
         .project-buttons {
             display: flex;
-            gap: 1rem;
+            flex-direction: column;
+            gap: 0.75rem;
             margin-top: auto;
         }
 
         .btn {
-            flex: 1;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
+            padding: 0.875rem 1.75rem;
+            border-radius: 12px;
             font-weight: 600;
             text-decoration: none;
             text-align: center;
@@ -239,42 +249,100 @@
             border: none;
             cursor: pointer;
             font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            letter-spacing: 0.3px;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+            background: var(--sage-dark);
             color: var(--white);
+            border: 2px solid var(--sage-dark);
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            background: var(--sage-medium);
+            border-color: var(--sage-medium);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px -5px rgba(90, 111, 91, 0.3);
         }
 
         .btn-secondary {
             background: var(--white);
-            color: var(--primary-blue);
-            border: 2px solid var(--primary-blue);
+            color: var(--terracotta-dark);
+            border: 2px solid var(--terracotta-medium);
         }
 
         .btn-secondary:hover {
-            background: var(--light-blue);
+            background: var(--terracotta-pale);
+            border-color: var(--terracotta-dark);
+        }
+
+        .btn-tertiary {
+            background: transparent;
+            color: var(--warm-gray);
+            border: 1px solid var(--sand);
+            font-size: 0.9rem;
+        }
+
+        .btn-tertiary:hover {
+            background: var(--cream-dark);
+            color: var(--sage-dark);
+            border-color: var(--sage-light);
         }
 
         .coming-soon-text {
             text-align: center;
-            color: var(--gray-600);
+            color: var(--warm-gray);
             font-size: 1.125rem;
             font-style: italic;
         }
 
+        /* Build It Yourself Section */
+        .build-it-yourself {
+            background: var(--sage-pale);
+            border: 2px solid var(--sage-light);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .build-it-yourself .section-title {
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+        }
+
+        .build-it-yourself-intro {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.125rem;
+            color: var(--warm-gray);
+            line-height: 1.8;
+        }
+
+        .build-it-yourself-highlight {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--white);
+            color: var(--sage-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-top: 1rem;
+            border: 2px solid var(--sage-light);
+        }
+
         /* Why This Matters Section */
         .why-matters {
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+            background: var(--terracotta-dark);
             color: var(--white);
             margin: 3rem 0;
             padding: 3rem 2rem;
-            border-radius: 16px;
+            border-radius: 20px;
         }
 
         .why-matters .section-title {
@@ -300,11 +368,10 @@
         }
 
         .benefits-list li {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--terracotta-medium);
             padding: 1rem 1.5rem;
-            border-radius: 8px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            border: 2px solid var(--terracotta-light);
         }
 
         .benefits-list li::before {
@@ -315,8 +382,8 @@
 
         /* Footer */
         footer {
-            background: var(--gray-900);
-            color: var(--white);
+            background: var(--charcoal);
+            color: var(--cream);
             padding: 3rem 0 2rem;
             margin-top: 4rem;
         }
@@ -331,11 +398,11 @@
         .footer-tagline {
             font-size: 1.125rem;
             margin-bottom: 1rem;
-            opacity: 0.9;
+            opacity: 0.95;
         }
 
         .footer-license {
-            color: var(--gray-200);
+            color: var(--sand);
             margin-bottom: 2rem;
             font-size: 0.95rem;
         }
@@ -343,7 +410,7 @@
         .footer-connect {
             margin-top: 2rem;
             padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 2px solid var(--warm-gray);
         }
 
         .footer-connect h3 {
@@ -360,14 +427,14 @@
         }
 
         .footer-links a {
-            color: var(--white);
+            color: var(--cream);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s ease;
         }
 
         .footer-links a:hover {
-            color: var(--light-blue);
+            color: var(--sage-light);
         }
 
         .footer-cta {
@@ -392,10 +459,6 @@
 
             .nav-links {
                 gap: 1rem;
-            }
-
-            .project-buttons {
-                flex-direction: column;
             }
 
             .benefits-list {
@@ -437,7 +500,7 @@
         /* Accessibility */
         .btn:focus,
         .nav-links a:focus {
-            outline: 3px solid var(--primary-purple);
+            outline: 3px solid var(--terracotta-medium);
             outline-offset: 2px;
         }
 
@@ -454,6 +517,7 @@
             <div class="logo">ClaudeCode Portfolio</div>
             <ul class="nav-links">
                 <li><a href="#projects">Projects</a></li>
+                <li><a href="#build-guides">Build Guides</a></li>
                 <li><a href="#why-matters">Impact</a></li>
                 <li><a href="#contact">Connect</a></li>
             </ul>
@@ -478,39 +542,13 @@
     <section id="projects" class="container">
         <h2 class="section-title">Featured Projects</h2>
         <div class="projects-grid">
-
-        <!-- Project 1: Brain Labeling Exercise -->
-            <article class="project-card">
-                <h3 class="project-title">Brain Structures Learning Exercise</h3>
-                <p class="project-description">
-                    My first project! A simple interactive brain anatomy labeling tool with intelligent progress tracking. Features dual-difficulty modes
-                    (with word bank vs. memory recall), structure-specific mastery tracking, achievements system, and personalized
-                    recommendations. Demonstrates retrieval practice, immediate feedback, and adaptive learning principles. Created on January 14, 2026
-                </p>
-                <div class="project-tags">
-                    <span class="tag">Anatomy</span>
-                    <span class="tag">Retrieval Practice</span>
-                    <span class="tag">Mastery Learning</span>
-                    <span class="tag">Gamification</span>
-                </div>
-                <div class="learning-principles">
-                    <div class="learning-principles-title">Learning Science Principles</div>
-                    <div class="learning-principles-content">
-                        Retrieval practice, desirable difficulties, immediate feedback, mastery learning, gamification
-                    </div>
-                </div>
-                <div class="project-buttons">
-                    <a href="./brainlabel/" class="btn btn-primary">Launch Exercise</a>
-                    <a href="https://github.com/nhuntemann/ClaudeCode/tree/main/brainlabel" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">View Code</a>
-                </div>
-            </article>
-            <!-- Project 2: Brain & Memory -->
+            <!-- Project 1: Brain & Memory -->
             <article class="project-card">
                 <h3 class="project-title">Brain & Memory Learning Exercise</h3>
                 <p class="project-description">
                     Multi-page interactive learning pathway teaching how the brain encodes information into long-term memory.
                     Features dual-difficulty modes (recognition vs. recall), flashcard practice, comprehensive progress tracking,
-                    and demonstrates retrieval practice, desirable difficulties, and spaced repetition principles. Created on January 15, 2026
+                    and demonstrates retrieval practice, desirable difficulties, and spaced repetition principles.
                 </p>
                 <div class="project-tags">
                     <span class="tag">Neuroscience</span>
@@ -525,12 +563,52 @@
                     </div>
                 </div>
                 <div class="project-buttons">
-                    <a href="./brainpractice/" class="btn btn-primary">Launch Exercise</a>
-                    <a href="https://github.com/nhuntemann/ClaudeCode/tree/main/brainpractice" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">View Code</a>
+                    <a href="./brainpractice/" class="btn btn-primary">
+                        <span>▶</span> Launch Exercise
+                    </a>
+                    <a href="./brainpractice/Build-Guide.pdf" class="btn btn-secondary" download>
+                        <span>⬇</span> Download Build Guide (PDF)
+                    </a>
+                    <a href="https://github.com/nhuntemann/ClaudeCode/tree/main/brainpractice" class="btn btn-tertiary" target="_blank" rel="noopener noreferrer">
+                        View Source Code on GitHub
+                    </a>
                 </div>
             </article>
 
-          <!-- Coming Soon Placeholders -->
+            <!-- Project 2: Brain Labeling Exercise -->
+            <article class="project-card">
+                <h3 class="project-title">Brain Structures Learning Exercise</h3>
+                <p class="project-description">
+                    Interactive brain anatomy labeling tool with intelligent progress tracking. Features dual-difficulty modes
+                    (with word bank vs. memory recall), structure-specific mastery tracking, achievements system, and personalized
+                    recommendations. Demonstrates retrieval practice, immediate feedback, and adaptive learning principles.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">Anatomy</span>
+                    <span class="tag">Retrieval Practice</span>
+                    <span class="tag">Mastery Learning</span>
+                    <span class="tag">Gamification</span>
+                </div>
+                <div class="learning-principles">
+                    <div class="learning-principles-title">Learning Science Principles</div>
+                    <div class="learning-principles-content">
+                        Retrieval practice, desirable difficulties, immediate feedback, mastery learning, gamification
+                    </div>
+                </div>
+                <div class="project-buttons">
+                    <a href="./brain_labeling_exercise.html" class="btn btn-primary">
+                        <span>▶</span> Launch Exercise
+                    </a>
+                    <a href="./BrainExercise/Build-Guide.pdf" class="btn btn-secondary" download>
+                        <span>⬇</span> Download Build Guide (PDF)
+                    </a>
+                    <a href="https://github.com/nhuntemann/ClaudeCode" class="btn btn-tertiary" target="_blank" rel="noopener noreferrer">
+                        View Source Code on GitHub
+                    </a>
+                </div>
+            </article>
+
+            <!-- Coming Soon Placeholders -->
 
             <article class="project-card coming-soon">
                 <h3 class="project-title">More Projects Coming Soon</h3>
@@ -538,6 +616,22 @@
                     Additional interactive learning experiences in development...
                 </p>
             </article>
+        </div>
+    </section>
+
+    <!-- Build It Yourself Section -->
+    <section id="build-guides" class="container">
+        <div class="build-it-yourself">
+            <h2 class="section-title">📘 Learn to Build These Yourself</h2>
+            <p class="build-it-yourself-intro">
+                Each project includes a detailed build guide with the exact Claude Code prompts I used,
+                step-by-step instructions, and tips for customization. No coding experience required—just
+                follow along and adapt for your own content.
+            </p>
+            <div class="build-it-yourself-highlight">
+                <span>✨</span>
+                <span>Free resources for educators</span>
+            </div>
         </div>
     </section>
 
