@@ -1,1 +1,185 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethics Lab: Modern Trolley Problems</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Ethics Lab</h1>
+            <p class="subtitle">Exploring ethical reasoning through contemporary dilemmas</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <p class="progress-text" id="progressText">Scenario 1 of 6</p>
+        </header>
+
+        <main id="mainContent">
+            <!-- Welcome Screen -->
+            <div id="welcomeScreen" class="screen active">
+                <h2>Welcome to Ethics Lab</h2>
+                <p>This tool will guide you through three randomly selected ethical dilemmas. You'll:</p>
+                <ul>
+                    <li><strong>Make decisions</strong> in realistic scenarios without "correct" answers</li>
+                    <li><strong>Reflect on your reasoning</strong> and identify your ethical frameworks</li>
+                    <li><strong>Compare perspectives</strong> from utilitarian, deontological, and virtue ethics approaches</li>
+                    <li><strong>Reconsider your choices</strong> after seeing different ethical frameworks</li>
+                    <li><strong>Revisit your thinking</strong> as scenarios become more complex</li>
+                </ul>
+                <p class="important">There are no right or wrong answers. The goal is to develop your ethical reasoning skills.</p>
+                <button class="btn-primary" onclick="app.startExperience()">Begin</button>
+            </div>
+
+            <!-- Scenario Screen -->
+            <div id="scenarioScreen" class="screen">
+                <div class="scenario-header">
+                    <span class="scenario-tag" id="scenarioTag">Autonomous Vehicles</span>
+                    <span class="complexity-indicator" id="complexityIndicator"></span>
+                </div>
+                <h2 id="scenarioTitle"></h2>
+                <div id="scenarioContext" class="scenario-text"></div>
+                <div id="scenarioQuestion" class="scenario-question"></div>
+
+                <div id="choiceContainer" class="choice-container">
+                    <!-- Choices will be dynamically inserted -->
+                </div>
+            </div>
+
+            <!-- Reflection Screen -->
+            <div id="reflectionScreen" class="screen">
+                <h2>Reflect on Your Choice</h2>
+                <p class="reflection-prompt" id="reflectionPrompt"></p>
+
+                <div class="reflection-input">
+                    <label for="reasoningText">Explain your reasoning (minimum 50 characters):</label>
+                    <textarea id="reasoningText" rows="4" placeholder="What ethical principle guided your decision? What factors did you weigh most heavily?"></textarea>
+                    <div class="char-counter"><span id="charCount">0</span> / 50 minimum</div>
+                </div>
+
+                <div class="framework-selection">
+                    <label>Which ethical framework best describes your approach?</label>
+                    <div class="framework-options">
+                        <label class="framework-option">
+                            <input type="radio" name="framework" value="utilitarian">
+                            <span class="framework-name">Utilitarian</span>
+                            <span class="framework-desc">Maximize overall good/minimize harm for the greatest number</span>
+                        </label>
+                        <label class="framework-option">
+                            <input type="radio" name="framework" value="deontological">
+                            <span class="framework-name">Deontological</span>
+                            <span class="framework-desc">Follow moral rules/duties regardless of consequences</span>
+                        </label>
+                        <label class="framework-option">
+                            <input type="radio" name="framework" value="virtue">
+                            <span class="framework-name">Virtue Ethics</span>
+                            <span class="framework-desc">Act according to virtuous character traits and moral wisdom</span>
+                        </label>
+                        <label class="framework-option">
+                            <input type="radio" name="framework" value="unsure">
+                            <span class="framework-name">Unsure/Mixed</span>
+                            <span class="framework-desc">I'm drawing from multiple frameworks or uncertain</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button class="btn-primary" id="submitReflectionBtn" onclick="app.submitReflection()" disabled>Continue</button>
+            </div>
+
+            <!-- Analysis Screen -->
+            <div id="analysisScreen" class="screen">
+                <h2>Comparative Framework Analysis</h2>
+                <div class="your-choice-summary" id="yourChoiceSummary"></div>
+
+                <div class="framework-analyses">
+                    <div class="framework-analysis">
+                        <h3>🎯 Utilitarian Perspective</h3>
+                        <p id="utilitarianAnalysis"></p>
+                    </div>
+                    <div class="framework-analysis">
+                        <h3>⚖️ Deontological Perspective</h3>
+                        <p id="deontologicalAnalysis"></p>
+                    </div>
+                    <div class="framework-analysis">
+                        <h3>🌟 Virtue Ethics Perspective</h3>
+                        <p id="virtueAnalysis"></p>
+                    </div>
+                </div>
+
+                <div class="reflection-box">
+                    <h4>Consider:</h4>
+                    <p id="considerationPrompt"></p>
+                </div>
+
+                <button class="btn-primary" onclick="app.showReconsiderationScreen()">Continue</button>
+            </div>
+
+            <!-- Reconsideration Screen -->
+            <div id="reconsiderationScreen" class="screen">
+                <h2>Reconsider Your Choice</h2>
+                <p class="reconsideration-intro">Now that you've seen how different ethical frameworks approach this dilemma, take a moment to reconsider your original decision.</p>
+
+                <div class="original-choice-reminder" id="originalChoiceReminder"></div>
+
+                <div class="reconsideration-question">
+                    <p><strong>Would you like to change your choice?</strong></p>
+                </div>
+
+                <div id="reconsiderationChoiceContainer" class="choice-container">
+                    <!-- Choices will be dynamically inserted -->
+                </div>
+
+                <div class="reconsideration-reflection">
+                    <div id="changeReflectionSection" style="display: none;">
+                        <label for="changeReasoningText">Why are you changing your choice? What did you learn from the framework analyses? (minimum 50 characters):</label>
+                        <textarea id="changeReasoningText" rows="4" placeholder="Explain what influenced you to reconsider your original choice..."></textarea>
+                        <div class="char-counter"><span id="changeCharCount">0</span> / 50 minimum</div>
+                    </div>
+
+                    <div id="noChangeReflectionSection" style="display: none;">
+                        <label for="noChangeReasoningText">Why are you keeping your original choice? (minimum 50 characters):</label>
+                        <textarea id="noChangeReasoningText" rows="4" placeholder="Explain why the framework analyses reinforced your original reasoning or why you still believe your choice is best..."></textarea>
+                        <div class="char-counter"><span id="noChangeCharCount">0</span> / 50 minimum</div>
+                    </div>
+                </div>
+
+                <button class="btn-primary" id="submitReconsiderationBtn" onclick="app.submitReconsideration()" disabled>Continue to Next Scenario</button>
+            </div>
+
+            <!-- Completion Screen -->
+            <div id="completionScreen" class="screen">
+                <h2>Journey Complete</h2>
+                <p>You've worked through three ethical dilemmas. Let's review your ethical reasoning patterns.</p>
+
+                <div class="summary-stats">
+                    <h3>Your Ethical Framework Distribution</h3>
+                    <div id="frameworkChart" class="framework-chart"></div>
+                </div>
+
+                <div class="spaced-retrieval">
+                    <h3>Spaced Retrieval: Revisit Your Thinking</h3>
+                    <p>Now consider this variation on one of the scenarios you encountered:</p>
+                    <div class="callback-scenario" id="callbackScenario"></div>
+                    <textarea id="callbackReflection" rows="4" placeholder="Reflect on how this variation relates to your earlier reasoning..."></textarea>
+                </div>
+
+                <div class="final-reflection">
+                    <h3>Final Reflection</h3>
+                    <p>What did you learn about your own ethical reasoning? Did you notice any patterns or tensions in how you approached different scenarios?</p>
+                    <textarea id="finalReflection" rows="6" placeholder="Your thoughts..."></textarea>
+                </div>
+
+                <button class="btn-primary" onclick="app.downloadResults()">Download Your Reflection Journal</button>
+                <button class="btn-secondary" onclick="app.restart()">Start Over</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="scenarios.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
