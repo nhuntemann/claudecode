@@ -143,6 +143,12 @@
             color: var(--terracotta-dark);
         }
 
+        .project-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
         .project-link {
             display: inline-block;
             background: var(--sage-medium);
@@ -167,6 +173,50 @@
 
         .project-card.ethics .project-link:hover {
             background: var(--terracotta-dark);
+        }
+
+        .project-link.secondary {
+            background: var(--warm-white);
+            color: var(--sage-dark);
+            border: 2px solid var(--sage-medium);
+        }
+
+        .project-link.secondary:hover {
+            background: var(--sage-pale);
+            border-color: var(--sage-dark);
+        }
+
+        .project-card.ethics .project-link.secondary {
+            color: var(--terracotta-dark);
+            border-color: var(--terracotta-medium);
+        }
+
+        .project-card.ethics .project-link.secondary:hover {
+            background: var(--terracotta-pale);
+            border-color: var(--terracotta-dark);
+        }
+
+        .code-link {
+            display: block;
+            text-align: center;
+            color: var(--sage-medium);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .code-link:hover {
+            color: var(--sage-dark);
+            text-decoration: underline;
+        }
+
+        .project-card.ethics .code-link {
+            color: var(--terracotta-medium);
+        }
+
+        .project-card.ethics .code-link:hover {
+            color: var(--terracotta-dark);
         }
 
         .features-list {
@@ -226,6 +276,32 @@
             margin-top: 0.25rem;
         }
 
+        .build-section {
+            background: var(--warm-white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 16px rgba(74, 93, 79, 0.08);
+            border: 2px dashed var(--sage-light);
+        }
+
+        .build-section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--sage-dark);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .build-section p {
+            font-size: 1.1rem;
+            color: var(--sage-medium);
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
@@ -242,6 +318,18 @@
             .stats {
                 gap: 1.5rem;
             }
+
+            .build-section {
+                padding: 1.5rem;
+            }
+
+            .build-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .build-section p {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -249,7 +337,7 @@
     <div class="container">
         <header>
             <h1>Learning Tools Portfolio</h1>
-            <p class="subtitle">Interactive educational tools designed with ClaudeCode</p>
+            <p class="subtitle">Experiments in using ClaudeCode to build interactive tools that demonstrate evdienced-based learning principles</p>
         </header>
 
         <div class="projects-grid">
@@ -271,7 +359,13 @@
                     <span class="tag">Ethics</span>
                     <span class="tag">Critical Thinking</span>
                 </div>
-                <a href="ethics/index.html" class="project-link">Explore Ethics Lab →</a>
+                <div class="project-actions">
+                    <a href="Ethics/index.html" class="project-link">Launch Exercise</a>
+                    <a href="./Ethics/Build-Guide.pdf" class="project-link secondary" download>📥 Coming Soon: Download Build Guide (PDF)</a>
+                <!-- Under Construction
+                    <a href="https://github.com/yourusername/ethics-lab" class="code-link">View Code on GitHub →</a>
+                -->    
+                </div>
             </div>
 
             <!-- Brain Learning Pathway -->
@@ -279,7 +373,7 @@
                 <div class="project-icon">🧠</div>
                 <h2 class="project-title">Brain Learning Pathway</h2>
                 <p class="project-description">
-                    A multi-lesson learning pathway that guides students through brain structures, functions, and neural processes.
+                    A multi-page learning pathway featuring interactive concept cards that guide students through brain structures, functions, and neural processes.
                 </p>
                 <ul class="features-list">
                     <li>Interactive concept cards</li>
@@ -289,10 +383,16 @@
                 </ul>
                 <div class="project-tags">
                     <span class="tag">Neuroscience</span>
-                    <span class="tag">Biology</span>
                     <span class="tag">Learning Science</span>
+                    <span class="tag">Interactive</span>
                 </div>
-                <a href="brain/brain_learning_pathway.html" class="project-link">Start Learning →</a>
+                <div class="project-actions">
+                    <a href="brain_learning_pathway.html" class="project-link">Launch Exercise</a>
+                    <a href="./brain/Build-Guide.pdf" class="project-link secondary" download>📥 Coming Soon: Download Build Guide (PDF)</a>
+                <!-- Under Construction    
+                    <a href="https://github.com/nhuntemann/brain-learning-pathway" class="code-link">View Code on GitHub →</a>
+                -->
+                </div>
             </div>
 
             <!-- Brain Labeling Exercise -->
@@ -300,10 +400,10 @@
                 <div class="project-icon">🔬</div>
                 <h2 class="project-title">Brain Labeling Exercise</h2>
                 <p class="project-description">
-                    Practice tool for mastering brain anatomy through a labeling exercises with easy and hard modes.
+                    Simple memory practice tool for mastering brain anatomy through a labeling exercise.
                 </p>
                 <ul class="features-list">
-                    <li>Scaffolded difficulty</li>
+                    <li>Variable difficulty</li>
                     <li>Immediate feedback</li>
                     <li>Multiple brain regions</li>
                     <li>Score tracking</li>
@@ -313,7 +413,13 @@
                     <span class="tag">Practice</span>
                     <span class="tag">Visual Learning</span>
                 </div>
-                <a href="brain/brain_labeling_exercise.html" class="project-link">Practice Now →</a>
+                <div class="project-actions">
+                    <a href="brain_labeling_exercise.html" class="project-link">Launch Exercise</a>
+                    <a href="./brain/Build-Guide.pdf" class="project-link secondary" download>📥 Download Build Guide (PDF)</a>
+           <!-- Under Construction   
+                    <a href="https://github.com/yourusername/brain-labeling-exercise" class="code-link">View Code on GitHub →</a>
+           -->     
+                </div>
             </div>
 
             <!-- Astronomy Flashcards -->
@@ -321,25 +427,36 @@
                 <div class="project-icon">🌟</div>
                 <h2 class="project-title">Astronomy Flashcards</h2>
                 <p class="project-description">
-                    Digital flashcard system for learning astronomy concepts. Features spaced repetition and progress tracking.
+                    Flashcard system for learning astronomy concepts. Features spaced repetition and progress tracking.
                 </p>
                 <ul class="features-list">
                     <li>Flip-card interactions</li>
                     <li>Mastery tracking</li>
                     <li>Statistics dashboard</li>
-                    <li>Comprehensive content</li>
+                    <li>Spaced repetition</li>
                 </ul>
                 <div class="project-tags">
                     <span class="tag">Astronomy</span>
                     <span class="tag">Flashcards</span>
                     <span class="tag">Memorization</span>
                 </div>
-                <a href="astro/astronomy_flashcards.html" class="project-link">Study Astronomy →</a>
+                <div class="project-actions">
+                    <a href="astronomy_flashcards.html" class="project-link">Launch Exercise</a>
+                    <a href="./astronomy/Build-Guide.pdf" class="project-link secondary" download>📥 Download Build Guide (PDF)</a>
+           <!-- Under Construction   
+                    <a href="https://github.com/yourusername/astronomy-flashcards" class="code-link">View Code on GitHub →</a>
+           -->     
+                </div>
             </div>
         </div>
 
+        <div class="build-section">
+            <h2>Learn to Build These Yourself</h2>
+            <p>Coming Soon: Each project includes a detailed build guide with the Claude Code prompts I used, step-by-step instructions, and tips for customization. No coding experience required—just follow along and adapt for your own content.</p>
+        </div>
+
         <footer>
-            <p style="font-size: 1.1rem; margin-bottom: 1rem;">Built with passion for education and interactive learning</p>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">All projects built by Nina Huntemann with an AI-assisted coding platform.</p>
             <div class="stats">
                 <div class="stat-item">
                     <div class="stat-number">4</div>
