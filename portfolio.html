@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Tools Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --sage-dark: #4a5d4f;
+            --sage-medium: #6b8370;
+            --sage-light: #a8b9ad;
+            --sage-pale: #e8ede9;
+            --terracotta-dark: #a0522d;
+            --terracotta-medium: #cd8162;
+            --terracotta-light: #e8b4a0;
+            --terracotta-pale: #f5e6de;
+            --cream: #faf7f2;
+            --warm-white: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--sage-pale) 100%);
+            color: var(--sage-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--warm-white);
+            border-radius: 24px;
+            box-shadow: 0 8px 24px rgba(74, 93, 79, 0.1);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--sage-dark);
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--sage-medium);
+            font-weight: 400;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .project-card {
+            background: var(--warm-white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(74, 93, 79, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid var(--sage-pale);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(74, 93, 79, 0.15);
+        }
+
+        .project-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--sage-medium), var(--sage-dark));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-card.ethics .project-icon {
+            background: linear-gradient(135deg, var(--terracotta-medium), var(--terracotta-dark));
+        }
+
+        .project-card.brain .project-icon {
+            background: linear-gradient(135deg, #6b8370, #4a5d4f);
+        }
+
+        .project-card.astronomy .project-icon {
+            background: linear-gradient(135deg, #4a5d7f, #2d3d5f);
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--sage-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .project-description {
+            color: var(--sage-medium);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            line-height: 1.7;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            background: var(--sage-pale);
+            color: var(--sage-dark);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .project-card.ethics .tag {
+            background: var(--terracotta-pale);
+            color: var(--terracotta-dark);
+        }
+
+        .project-link {
+            display: inline-block;
+            background: var(--sage-medium);
+            color: var(--warm-white);
+            text-decoration: none;
+            padding: 0.875rem 1.75rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            letter-spacing: 0.3px;
+        }
+
+        .project-link:hover {
+            background: var(--sage-dark);
+            transform: scale(1.02);
+        }
+
+        .project-card.ethics .project-link {
+            background: var(--terracotta-medium);
+        }
+
+        .project-card.ethics .project-link:hover {
+            background: var(--terracotta-dark);
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .features-list li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 0.5rem;
+            color: var(--sage-medium);
+        }
+
+        .features-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--sage-medium);
+            font-weight: 700;
+        }
+
+        .project-card.ethics .features-list li:before {
+            color: var(--terracotta-medium);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--sage-medium);
+            background: var(--warm-white);
+            border-radius: 20px;
+            box-shadow: 0 4px 16px rgba(74, 93, 79, 0.08);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--sage-dark);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--sage-medium);
+            margin-top: 0.25rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                padding: 1rem;
+            }
+
+            .stats {
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Learning Tools Portfolio</h1>
+            <p class="subtitle">Interactive educational tools designed to enhance learning through engagement</p>
+        </header>
+
+        <div class="projects-grid">
+            <!-- Ethics Lab -->
+            <div class="project-card ethics">
+                <div class="project-icon">⚖️</div>
+                <h2 class="project-title">Ethics Lab</h2>
+                <p class="project-description">
+                    An interactive platform for exploring ethical dilemmas through thought-provoking scenarios. Students engage with complex moral questions and develop critical thinking skills.
+                </p>
+                <ul class="features-list">
+                    <li>Real-world ethical scenarios</li>
+                    <li>Interactive decision-making</li>
+                    <li>Critical thinking development</li>
+                    <li>Philosophical concept exploration</li>
+                </ul>
+                <div class="project-tags">
+                    <span class="tag">Philosophy</span>
+                    <span class="tag">Ethics</span>
+                    <span class="tag">Critical Thinking</span>
+                </div>
+                <a href="Ethics/index.html" class="project-link">Explore Ethics Lab →</a>
+            </div>
+
+            <!-- Brain Learning Pathway -->
+            <div class="project-card brain">
+                <div class="project-icon">🧠</div>
+                <h2 class="project-title">Brain Learning Pathway</h2>
+                <p class="project-description">
+                    A comprehensive neuroscience learning tool featuring interactive concept cards that guide students through brain structures, functions, and neural processes.
+                </p>
+                <ul class="features-list">
+                    <li>Interactive concept cards</li>
+                    <li>Visual learning pathways</li>
+                    <li>Neuroscience fundamentals</li>
+                    <li>Progress tracking</li>
+                </ul>
+                <div class="project-tags">
+                    <span class="tag">Neuroscience</span>
+                    <span class="tag">Biology</span>
+                    <span class="tag">Interactive</span>
+                </div>
+                <a href="brain_learning_pathway.html" class="project-link">Start Learning →</a>
+            </div>
+
+            <!-- Brain Labeling Exercise -->
+            <div class="project-card brain">
+                <div class="project-icon">🔬</div>
+                <h2 class="project-title">Brain Labeling Exercise</h2>
+                <p class="project-description">
+                    Hands-on practice tool for mastering brain anatomy through drag-and-drop labeling exercises. Perfect for visual learners and anatomy students.
+                </p>
+                <ul class="features-list">
+                    <li>Drag-and-drop interface</li>
+                    <li>Immediate feedback</li>
+                    <li>Multiple brain regions</li>
+                    <li>Score tracking</li>
+                </ul>
+                <div class="project-tags">
+                    <span class="tag">Anatomy</span>
+                    <span class="tag">Practice</span>
+                    <span class="tag">Visual Learning</span>
+                </div>
+                <a href="brain_labeling_exercise.html" class="project-link">Practice Now →</a>
+            </div>
+
+            <!-- Astronomy Flashcards -->
+            <div class="project-card astronomy">
+                <div class="project-icon">🌟</div>
+                <h2 class="project-title">Astronomy Flashcards</h2>
+                <p class="project-description">
+                    Digital flashcard system for learning astronomy concepts. Features spaced repetition, progress tracking, and comprehensive coverage of celestial phenomena.
+                </p>
+                <ul class="features-list">
+                    <li>Flip-card interactions</li>
+                    <li>Mastery tracking</li>
+                    <li>Statistics dashboard</li>
+                    <li>Comprehensive content</li>
+                </ul>
+                <div class="project-tags">
+                    <span class="tag">Astronomy</span>
+                    <span class="tag">Flashcards</span>
+                    <span class="tag">Memorization</span>
+                </div>
+                <a href="astronomy_flashcards.html" class="project-link">Study Astronomy →</a>
+            </div>
+        </div>
+
+        <footer>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">Built with passion for education and interactive learning</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Learning Tools</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Subject Areas</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Interactive</div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
